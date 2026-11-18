@@ -41,6 +41,32 @@ if (!existsSync(D('versions.json'))) {
   chk(current === 1, `versions.json：isCurrent=true 的条目必须恰好 1 条，实际 ${current}`);
 }
 
+// ---- data/lords.json ----
+// 棋手外键表，只存 { id, name }，id 是卡池 lordId。卡面、技能、立绘在 site/dist/data/ 里，不重复存。
+let lordIds = null;
+if (!existsSync(D('lords.json'))) {
+  problems.push('lords.json：文件不存在');
+} else {
+  const j = readJson('lords.json');
+  chk(Array.isArray(j), 'lords.json：顶层必须是数组');
+  const lordList = Array.isArray(j) ? j : [];
+  // 卡池 lords 实测 21 条；数量变了说明卡池版本变了，要一起审
+  chk(lordList.length === 21, `lords.json：应为 21 条（卡池 lords 实测条数），实际 ${lordList.length}`);
+  const seenId = new Set();
+  lordList.forEach((l, i) => {
+    const at = `lords.json[${i}]`;
+    chk(Object.keys(l || {}).join() === 'id,name', `${at}：只能有 id / name 两个字段`);
+    chk(isInt(l?.id), `${at}：id 必须是整数`);
+    if (isInt(l?.id)) {
+      chk(!seenId.has(l.id), `${at}：id ${l.id} 重复`);
+      seenId.add(l.id);
+    }
+    chk(isStr(l?.name) && l.name.length > 0, `${at}：name 必须是非空字符串`);
+  });
+  lordIds = seenId;
+  notes.push(`lords.json：${lordList.length} 条棋手`);
+}
+
 // ---- data/comps.json ----
 if (!existsSync(D('comps.json'))) {
   problems.push('comps.json：文件不存在');
@@ -127,6 +153,54 @@ if (!existsSync(D('comps.json'))) {
       if (heroIds && isInt(h?.id)) chk(heroIds.has(h.id), `${hAt}：id ${h.id} 不在 data/heroes.json 里`);
     }
 
+    // lords：数组，1-3 条，id 查 data/lords.json
+    chk(Array.isArray(r?.lords), `${tag}：lords 必须是数组`);
+    const lords = Array.isArray(r?.lords) ? r.lords : [];
+    chk(lords.length >= 1 && lords.length <= 3, `${tag}：lords 长度必须是 1-3，实际 ${lords.length}`);
+    for (const [j, l] of lords.entries()) {
+      const lAt = `${tag}.lords[${j}]`;
+      chk(l && typeof l === 'object' && !Array.isArray(l), `${lAt}：必须是对象`);
+      chk(isNum(l?.id) && isInt(l.id), `${lAt}：id 必须是整数（number）`);
+      chk(isStr(l?.name) && l.name.length > 0, `${lAt}：name 必须是非空字符串`);
+      if (lordIds && isInt(l?.id)) chk(lordIds.has(l.id), `${lAt}：id ${l.id} 不在 data/lords.json 里`);
+    }
+
+    // 玩家 UGC 文案：原文照录，只标 source: "ugc"；非空才写，写了就必须是 { text, source }
+    for (const f of ['brief', 'positionDesc', 'equipDesc']) {
+      if (!(f in (r || {}))) continue;
+      const v = r[f];
+      chk(v && typeof v === 'object' && !Array.isArray(v), `${tag}.${f}：必须是 { text, source } 对象，不能是裸字符串`);
+      if (!v || typeof v !== 'object' || Array.isArray(v)) continue;
+      chk(isStr(v.text), `${tag}.${f}.text 必须是字符串`);
+      chk(v.source === 'ugc', `${tag}.${f}.source 必须是 "ugc"`);
+    }
+    if ('operationDetails' in (r || {})) {
+      chk(Array.isArray(r.operationDetails), `${tag}.operationDetails 必须是数组`);
+      for (const [j, o] of (Array.isArray(r.operationDetails) ? r.operationDetails : []).entries()) {
+        const oAt = `${tag}.operationDetails[${j}]`;
+        chk(isNum(o?.beginRound) && isInt(o.beginRound), `${oAt}：缺 beginRound 或不是整数`);
+        chk(isNum(o?.endRound) && isInt(o.endRound), `${oAt}：缺 endRound 或不是整数`);
+        // 官方源里有阶段 desc 就是空串，原文照录，允许 ""
+        chk(isStr(o?.desc), `${oAt}：缺 desc 或不是字符串`);
+        chk(isStr(o?.source), `${oAt}：缺 source 或不是字符串`);
+      }
+    }
+    if ('tags' in (r || {})) {
+      chk(Array.isArray(r.tags), `${tag}.tags 必须是数组`);
+      for (const [j, t] of (Array.isArray(r.tags) ? r.tags : []).entries()) {
+        chk(isStr(t) && t.length > 0, `${tag}.tags[${j}]：必须是非空字符串`);
+      }
+    }
+    if ('talentCardDesc' in (r || {})) chk(isStr(r.talentCardDesc), `${tag}.talentCardDesc 必须是字符串`);
+    if ('effectCardDesc' in (r || {})) chk(isStr(r.effectCardDesc), `${tag}.effectCardDesc 必须是字符串`);
+
+    // 明确不落库的字段：出现即回归
+    for (const f of ['recommendLords', 'video', 'author']) {
+      chk(!(f in (r || {})), `${tag}：不应存在 ${f}`);
+    }
+    chk(!('infoID' in (r?.interactiveData || {})), `${tag}.interactiveData：不应存在 infoID`);
+    chk(!('exposedComments' in (r?.interactiveData || {})), `${tag}.interactiveData：不应存在 exposedComments`);
+
     // interactiveData
     const checkInter = (d, at2) => {
       chk(d && typeof d === 'object', `${at2}：必须是对象`);
@@ -171,6 +245,15 @@ if (!existsSync(D('comps.json'))) {
     }
     if (cols.length === 1 && cols[0] === 'beginner') {
       chk(r?.seasonIdRaw === 1, `${tag}：beginner 的 seasonIdRaw 实测为 1，请核对`);
+    }
+    // beginner 全是官方预置阵容：stats 官网不提供，四项必须全 null，不许补占位数
+    if (cols.includes('beginner')) {
+      chk(r?.isPreset === true, `${tag}：beginner 记录必须带 isPreset: true`);
+      for (const f of ['avgRank', 'pickRate', 'difficulty', 'equipRate']) {
+        chk(st && f in st ? st[f] === null : false, `${tag}.stats.${f}：beginner 记录必须为 null`);
+      }
+    } else {
+      chk(!r?.isPreset, `${tag}：非 beginner 记录不应带 isPreset`);
     }
   });
 

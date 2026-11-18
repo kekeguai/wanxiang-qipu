@@ -185,7 +185,7 @@ npm run gen:comps -- --in <快照目录> --out data
 npm run validate
 ```
 
-**更新流程需外部快照**：官网阵容列表页的原始 XHR 含作者昵称、用户 ID、头像，只在本地保存，`snapshots/raw/` 已进 `.gitignore`，仓库只存归纳后的 `data/comps.json`。没有快照就只能改代码，不动 `data/comps.json`。`scripts/fixtures/` 是 3 条脱敏样本，用来验证生成器：
+**更新流程需外部快照**：默认 `--in snapshots`，仓库内不含快照，实际使用请传 `--in <快照路径>`。官网阵容列表页的原始 XHR 含作者昵称、用户 ID、头像，只在本地保存，`snapshots/raw/` 已进 `.gitignore`，仓库只存归纳后的 `data/comps.json`。没有快照就只能改代码，不动 `data/comps.json`。`scripts/fixtures/` 是 3 条脱敏样本，用来验证生成器：
 
 ```sh
 npm run gen:comps -- --in scripts/fixtures --out /tmp
