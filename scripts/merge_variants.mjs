@@ -159,20 +159,26 @@ if (opts.dry) {
   process.exit(0);
 }
 
-comps.notes = (comps.notes || []).map((n) =>
-  n.startsWith('variants ')
-    ? `variants 来自 datawxq.com 的 /wzwxq/lineups/detail（scripts/fetch_variants.mjs + merge_variants.mjs），按 rosterKey 匹配，覆盖 ${recordsFilled} 条记录（其中 ${recordsWithVariants} 条有变阵，共 ${variantTotal} 条）；匹配到但没有变阵的记 []，没抓到的保持 null。每条只留核心字段，数值原样照抄。`
-    : n,
-);
+// 抓取方式不固定：可能是 fetch_variants.mjs 批量跑，也可能是手工 CDP 探针先抓几个。
+// 输入里写了 provenance 就照抄，没写才用默认的脚本名，不替输入编来源。
+const provenance =
+  typeof snap.provenance === 'string' && snap.provenance.trim()
+    ? snap.provenance.trim()
+    : 'scripts/fetch_variants.mjs + merge_variants.mjs';
+const variantsNote =
+  `variants 来自 datawxq.com 的 /wzwxq/lineups/detail（${provenance}），按 rosterKey 匹配，` +
+  `覆盖 ${recordsFilled} 条记录（其中 ${recordsWithVariants} 条有变阵，共 ${variantTotal} 条）；` +
+  '匹配到但没有变阵的记 []，没抓到的保持 null。每条只留核心字段，数值原样照抄。';
+
+comps.notes = (comps.notes || []).map((n) => (n.startsWith('variants ') ? variantsNote : n));
 if (!(comps.notes || []).some((n) => n.startsWith('variants '))) {
   comps.notes = comps.notes || [];
-  comps.notes.push(
-    `variants 来自 datawxq.com 的 /wzwxq/lineups/detail（scripts/fetch_variants.mjs + merge_variants.mjs），按 rosterKey 匹配，覆盖 ${recordsFilled} 条记录（其中 ${recordsWithVariants} 条有变阵，共 ${variantTotal} 条）；匹配到但没有变阵的记 []，没抓到的保持 null。每条只留核心字段，数值原样照抄。`,
-  );
+  comps.notes.push(variantsNote);
 }
 comps.variantsSnapshot = {
   source: DWXQ_SOURCE,
   fetchedAt: snap.fetchedAt || null,
+  provenance,
   rosterKeysRequested: snap.requested ?? fetchedKeys,
   rosterKeysFetched: fetchedKeys,
   rosterKeysWithVariants: withVariantsKeys,

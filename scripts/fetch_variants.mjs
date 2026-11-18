@@ -1,5 +1,5 @@
 // 抓 datawxq.com 的变阵（variants），只抓已经拿到统计数据的阵容。
-// 用法：node scripts/fetch_variants.mjs [--out <json>] [--gap 2500] [--max-retry 6]
+// 用法：node scripts/fetch_variants.mjs [--out <json>] [--gap 2500] [--max-retry 4] [--proxy http://127.0.0.1:7890]
 //
 // 签名由页面自己算：脚本在 Runtime.evaluate 里 import 页面已经加载的 seo 模块，
 // 调用它导出的请求封装（内部生成 t/did/nonce/signature）。
@@ -20,11 +20,12 @@ const CHROME_CANDIDATES = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-const USAGE = 'usage: node scripts/fetch_variants.mjs [--out <json>] [--gap <ms>] [--max-retry <n>]';
+const USAGE = 'usage: node scripts/fetch_variants.mjs [--out <json>] [--gap <ms>] [--max-retry <n>] [--proxy <url>]';
 const opts = {
   out: path.join(ROOT, 'snapshots', 'probe-variants', 'fetch-variants.json'),
   gap: 2500,
   maxRetry: 4,
+  proxy: '',
 };
 {
   const argv = process.argv.slice(2);
@@ -37,6 +38,13 @@ const opts = {
         process.exit(2);
       }
       opts.out = path.resolve(v);
+    } else if (a === '--proxy') {
+      const v = argv[++i];
+      if (!v || v.startsWith('--')) {
+        console.error(USAGE);
+        process.exit(2);
+      }
+      opts.proxy = v;
     } else if (a === '--gap' || a === '--max-retry') {
       const v = Number(argv[++i]);
       if (!Number.isFinite(v) || v < 0) {
@@ -90,7 +98,10 @@ const userDataDir = path.join(process.env.TEMP || process.env.TMPDIR || '/tmp', 
 const proc = spawn(chrome, [
   '--headless=new', '--disable-gpu', '--no-first-run', '--lang=zh-CN',
   `--remote-debugging-port=${port}`, `--user-data-dir=${userDataDir}`,
-  '--window-size=1600,2400', 'about:blank',
+  '--window-size=1600,2400',
+  // 指定代理时整页流量走它；本地回环（CDP）除外，否则命令行连不上浏览器。
+  ...(opts.proxy ? [`--proxy-server=${opts.proxy}`, '--proxy-bypass-list=<-loopback>'] : []),
+  'about:blank',
 ], { stdio: 'ignore' });
 
 let targetsList = null;
