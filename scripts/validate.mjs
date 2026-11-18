@@ -44,14 +44,14 @@ if (!existsSync(D('versions.json'))) {
 // ---- data/lords.json ----
 // 棋手外键表，只存 { id, name }，id 是卡池 lordId。卡面、技能、立绘在 site/dist/data/ 里，不重复存。
 let lordIds = null;
+let lordCount = null;
 if (!existsSync(D('lords.json'))) {
   problems.push('lords.json：文件不存在');
 } else {
   const j = readJson('lords.json');
   chk(Array.isArray(j), 'lords.json：顶层必须是数组');
   const lordList = Array.isArray(j) ? j : [];
-  // 卡池 lords 实测 21 条；数量变了说明卡池版本变了，要一起审
-  chk(lordList.length === 21, `lords.json：应为 21 条（卡池 lords 实测条数），实际 ${lordList.length}`);
+  // 条数不写死：卡池版本升级本来就会变。只校验 id 唯一，条数在末尾当 info 打出来。
   const seenId = new Set();
   lordList.forEach((l, i) => {
     const at = `lords.json[${i}]`;
@@ -64,7 +64,7 @@ if (!existsSync(D('lords.json'))) {
     chk(isStr(l?.name) && l.name.length > 0, `${at}：name 必须是非空字符串`);
   });
   lordIds = seenId;
-  notes.push(`lords.json：${lordList.length} 条棋手`);
+  lordCount = lordList.length;
 }
 
 // ---- data/comps.json ----
@@ -273,6 +273,8 @@ if (!existsSync(D('comps.json'))) {
 }
 
 // ---- 输出 ----
+// info 级提示：不计数、不影响退出码。
+if (lordCount !== null) notes.push(`data/lords.json 当前 ${lordCount} 条；卡池版本升级请同步`);
 for (const n of notes) console.log('note:', n);
 if (problems.length === 0) {
   console.log('data/ 校验通过：0 个问题');
