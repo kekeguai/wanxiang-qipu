@@ -61,7 +61,18 @@ jobs:
       - name: 重算发布清单
         run: python scripts/make_release.py
 
+      # snapshot / release 时间戳本来就会天天变，语义比对后没有真实数据变更就不提 PR。
+      - name: 检查是否有真实数据变更
+        id: diff
+        run: |
+          if node scripts/check_real_diff.mjs; then
+            echo "changed=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=1" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: 日期
+        if: steps.diff.outputs.changed == '1'
         id: d
         run: echo "d=$(date -u +%F)" >> "$GITHUB_OUTPUT"
 
@@ -69,6 +80,7 @@ jobs:
       # token 用 AUTO_UPDATE_TOKEN（PAT）优先：GITHUB_TOKEN 创建的 PR 不会触发其他 workflow，
       # 用 PAT 才能让 verify.yml 在这个 PR 上跑。
       - name: 有变动就开 PR
+        if: steps.diff.outputs.changed == '1'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.AUTO_UPDATE_TOKEN || secrets.GITHUB_TOKEN }}
