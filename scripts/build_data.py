@@ -114,8 +114,10 @@ def lord(l):
 if __name__ == '__main__':
     if '--fetch' in sys.argv:
         fetch_raw()
+    snapshot = RAW.name.replace('raw-', '')
+    # patch 由快照日期推出（20261118 → 11/18），不再硬编码，免得和 snapshot 自相矛盾。
     data = {
-        'meta': {'season': 'S1', 'snapshot': RAW.name.replace('raw-', ''), 'patch': '9/24 v1.3.x',
+        'meta': {'season': 'S1', 'snapshot': snapshot, 'patch': f'{int(snapshot[4:6])}/{int(snapshot[6:8])}',
                  'source': 'game.gtimg.cn 官方卡牌接口'},
         'heroes': [hero(c) for c in load(1)],
         'effects': [with_related(c) for c in load(2)],
