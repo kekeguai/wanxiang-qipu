@@ -43,6 +43,9 @@ function cardsDiff() {
   const b = JSON.parse(read(CARDS));
   if (a.meta) delete a.meta.snapshot;
   if (b.meta) delete b.meta.snapshot;
+  // patch 是 build_data.py 从 snapshot 日期推出来的（20261119 → 11/19），同样天天变。
+  if (a.meta) delete a.meta.patch;
+  if (b.meta) delete b.meta.patch;
   return JSON.stringify(a) === JSON.stringify(b) ? null : `${CARDS} 内容有变化（已忽略 meta.snapshot）`;
 }
 
