@@ -24,7 +24,7 @@
     "beginner 只有 9 行且 pro_2 返回 404，样本不足，暂不作为基准。",
     "stats 的 avgRank / pickRate / difficulty / equipRate 官网不提供，保持 null；登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com（scripts/fetch_stats.mjs + merge_stats.mjs），按 rosterKey 匹配；不要用 operationDetails 推 variants，不要用 equipList 算穿戴率。",
     "brief / positionDesc / equipDesc / operationDetails / tags / talentCardDesc / effectCardDesc 是玩家原创的阵容攻略（UGC），原文照录，版权归原作者，见 NOTICE。",
-    "variants 来自 datawxq.com 的 /wzwxq/lineups/detail（scripts/fetch_variants.mjs + merge_variants.mjs），按 rosterKey 匹配，覆盖 28 条记录（其中 28 条有变阵，共 445 条）；匹配到但没有变阵的记 []，没抓到的保持 null。每条只留核心字段，数值原样照抄。"
+    "variants 来自 datawxq.com 的 /wzwxq/lineups/detail（combined-variants.json（本地快照子集，按清单筛选）），按 rosterKey 匹配，覆盖 22 条记录（其中 22 条有变阵，共 371 条）；匹配到但没有变阵的记 []，没抓到的保持 null。每条只留核心字段，数值原样照抄。"
   ],
   "records": [
     {
@@ -189,11 +189,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1445,
-        "avgPlacement": 3.168,
-        "firstRate": 0.1693,
-        "top3Rate": 0.5788,
-        "count": 2315,
+        "appearanceRate": 0.1459,
+        "avgPlacement": 3.1536,
+        "firstRate": 0.1704,
+        "top3Rate": 0.5846,
+        "count": 2617,
         "variantCount": 30,
         "source": "datawxq.com"
       },
@@ -2230,11 +2230,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -3600,10 +3600,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "source": ""
+        "appearanceRate": 0.0491,
+        "avgPlacement": 3.3788,
+        "firstRate": 0.114,
+        "top3Rate": 0.5373,
+        "count": 2561,
+        "variantCount": 11,
+        "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_1.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:19.366Z",
@@ -3789,477 +3795,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0293,
-        "avgPlacement": 3.7846,
-        "firstRate": 0.1045,
-        "top3Rate": 0.3966,
-        "count": 469,
-        "variantCount": 9,
+        "appearanceRate": 0.0288,
+        "avgPlacement": 3.8043,
+        "firstRate": 0.1047,
+        "top3Rate": 0.3895,
+        "count": 516,
+        "variantCount": 8,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "7|1421|1461|1591|1661|1831|5041|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1661",
-              "name": "亚瑟"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1461"
-            },
-            {
-              "id": "1661"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            },
-            {
-              "id": "5141"
-            }
-          ],
-          "count": 86,
-          "appearanceRate": 0.1857,
-          "avgPlacement": 3.8953,
-          "firstRate": 0.1163,
-          "top3Rate": 0.3488,
-          "similarity": 0.5556
-        },
-        {
-          "lineupKey": "7|1421|1461|1591|1831|5041|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            }
-          ],
-          "count": 68,
-          "appearanceRate": 0.1469,
-          "avgPlacement": 3.6029,
-          "firstRate": 0.1618,
-          "top3Rate": 0.4265,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1421|1591|1661|1831|5041|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1661",
-              "name": "亚瑟"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1661"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            }
-          ],
-          "count": 63,
-          "appearanceRate": 0.1361,
-          "avgPlacement": 3.6667,
-          "firstRate": 0.1429,
-          "top3Rate": 0.4286,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1421|1461|1591|1661|1831|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1661",
-              "name": "亚瑟"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1461"
-            },
-            {
-              "id": "1661"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            },
-            {
-              "id": "5041"
-            }
-          ],
-          "count": 35,
-          "appearanceRate": 0.0756,
-          "avgPlacement": 4.2,
-          "firstRate": 0.1143,
-          "top3Rate": 0.2571,
-          "similarity": 0.5556
-        },
-        {
-          "lineupKey": "7|1421|1591|1831|1861|5041|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            }
-          ],
-          "count": 31,
-          "appearanceRate": 0.067,
-          "avgPlacement": 2.7742,
-          "firstRate": 0.1613,
-          "top3Rate": 0.7419,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1421|1591|1661|1831|5031|5041|5141",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1661",
-              "name": "亚瑟"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5031",
-              "name": "狂铁"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1661"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5631"
-            }
-          ],
-          "count": 22,
-          "appearanceRate": 0.0475,
-          "avgPlacement": 4.0455,
-          "firstRate": 0.0455,
-          "top3Rate": 0.3182,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "6|1421|1591|1831|5041|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "5031"
-            }
-          ],
-          "count": 20,
-          "appearanceRate": 0.0432,
-          "avgPlacement": 3.85,
-          "firstRate": 0.1,
-          "top3Rate": 0.4,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "8|1421|1461|1591|1831|5031|5041|5141|5631",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1831",
-              "name": "雅典娜"
-            },
-            {
-              "id": "5031",
-              "name": "狂铁"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            },
-            {
-              "id": "5631",
-              "name": "海诺"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 20,
-          "appearanceRate": 0.0432,
-          "avgPlacement": 4.05,
-          "firstRate": 0,
-          "top3Rate": 0.3,
-          "similarity": 0.875
-        },
-        {
-          "lineupKey": "7|1421|1441|1591|1731|5031|5041|5141",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1421",
-              "name": "安琪拉"
-            },
-            {
-              "id": "1441",
-              "name": "程咬金"
-            },
-            {
-              "id": "1591",
-              "name": "朵莉亚"
-            },
-            {
-              "id": "1731",
-              "name": "李元芳"
-            },
-            {
-              "id": "5031",
-              "name": "狂铁"
-            },
-            {
-              "id": "5041",
-              "name": "米莱狄"
-            },
-            {
-              "id": "5141",
-              "name": "亚连"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1441"
-            },
-            {
-              "id": "1731"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1831"
-            },
-            {
-              "id": "5631"
-            }
-          ],
-          "count": 19,
-          "appearanceRate": 0.041,
-          "avgPlacement": 3.9474,
-          "firstRate": 0.0526,
-          "top3Rate": 0.3158,
-          "similarity": 0.5556
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_1.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:19.366Z",
@@ -4637,11 +4182,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0235,
-        "avgPlacement": 3.4483,
-        "firstRate": 0.1008,
-        "top3Rate": 0.5146,
-        "count": 377,
+        "appearanceRate": 0.0241,
+        "avgPlacement": 3.4665,
+        "firstRate": 0.1062,
+        "top3Rate": 0.5081,
+        "count": 433,
         "variantCount": 5,
         "source": "datawxq.com"
       },
@@ -5086,11 +4631,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0531,
-        "avgPlacement": 3.5323,
-        "firstRate": 0.0752,
-        "top3Rate": 0.4971,
-        "count": 851,
+        "appearanceRate": 0.0532,
+        "avgPlacement": 3.5016,
+        "firstRate": 0.0817,
+        "top3Rate": 0.5047,
+        "count": 955,
         "variantCount": 10,
         "source": "datawxq.com"
       },
@@ -6912,499 +6457,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1259,
-        "avgPlacement": 3.3168,
-        "firstRate": 0.2459,
-        "top3Rate": 0.5245,
-        "count": 2017,
-        "variantCount": 11,
+        "appearanceRate": 0.1248,
+        "avgPlacement": 3.2945,
+        "firstRate": 0.2471,
+        "top3Rate": 0.5317,
+        "count": 2238,
+        "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "5|1141|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 395,
-          "appearanceRate": 0.1985,
-          "avgPlacement": 4.9165,
-          "firstRate": 0.0329,
-          "top3Rate": 0.1165,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "7|1141|1751|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 191,
-          "appearanceRate": 0.096,
-          "avgPlacement": 2.1885,
-          "firstRate": 0.4084,
-          "top3Rate": 0.822,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1141|1751|1861|5011|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5051"
-            }
-          ],
-          "count": 124,
-          "appearanceRate": 0.0623,
-          "avgPlacement": 2.3952,
-          "firstRate": 0.379,
-          "top3Rate": 0.7742,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "5|1141|1861|5011|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "5051"
-            }
-          ],
-          "count": 48,
-          "appearanceRate": 0.0241,
-          "avgPlacement": 4.4792,
-          "firstRate": 0.0417,
-          "top3Rate": 0.2292,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "5|1141|1861|5011|5051|5111",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "5641"
-            }
-          ],
-          "count": 43,
-          "appearanceRate": 0.0216,
-          "avgPlacement": 3.0698,
-          "firstRate": 0.2791,
-          "top3Rate": 0.5581,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "6|1141|1751|1861|5011|5051|5111",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5641"
-            }
-          ],
-          "count": 43,
-          "appearanceRate": 0.0216,
-          "avgPlacement": 2.1395,
-          "firstRate": 0.4651,
-          "top3Rate": 0.7907,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1751|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1141"
-            }
-          ],
-          "count": 28,
-          "appearanceRate": 0.0141,
-          "avgPlacement": 2.3929,
-          "firstRate": 0.2143,
-          "top3Rate": 0.8214,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1141|1391|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1391",
-              "name": "老夫子"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1391"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0116,
-          "avgPlacement": 3.1739,
-          "firstRate": 0.2609,
-          "top3Rate": 0.5217,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1141|1391|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1391",
-              "name": "老夫子"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1391"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 20,
-          "appearanceRate": 0.0101,
-          "avgPlacement": 5.05,
-          "firstRate": 0.05,
-          "top3Rate": 0.1,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1141|1751|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 20,
-          "appearanceRate": 0.0101,
-          "avgPlacement": 4.4,
-          "firstRate": 0.1,
-          "top3Rate": 0.25,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1141|1971|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1971",
-              "name": "弈星"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1971"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.009,
-          "avgPlacement": 5.3889,
-          "firstRate": 0,
-          "top3Rate": 0.0556,
-          "similarity": 0.7143
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_1.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:19.366Z",
@@ -8168,12 +7230,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1432,
-        "avgPlacement": 4.238,
-        "firstRate": 0.146,
-        "top3Rate": 0.2925,
-        "count": 2294,
-        "variantCount": 14,
+        "appearanceRate": 0.1423,
+        "avgPlacement": 4.2335,
+        "firstRate": 0.1457,
+        "top3Rate": 0.2926,
+        "count": 2553,
+        "variantCount": 15,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -9400,11 +8462,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0531,
-        "avgPlacement": 3.5323,
-        "firstRate": 0.0752,
-        "top3Rate": 0.4971,
-        "count": 851,
+        "appearanceRate": 0.0532,
+        "avgPlacement": 3.5016,
+        "firstRate": 0.0817,
+        "top3Rate": 0.5047,
+        "count": 955,
         "variantCount": 10,
         "source": "datawxq.com"
       },
@@ -10330,534 +9392,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0728,
-        "avgPlacement": 4.687,
-        "firstRate": 0.0901,
-        "top3Rate": 0.1955,
-        "count": 1166,
+        "appearanceRate": 0.0729,
+        "avgPlacement": 4.7024,
+        "firstRate": 0.091,
+        "top3Rate": 0.1928,
+        "count": 1307,
         "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "6|1061|1161|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 147,
-          "appearanceRate": 0.1259,
-          "avgPlacement": 4.9592,
-          "firstRate": 0.0748,
-          "top3Rate": 0.1429,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 107,
-          "appearanceRate": 0.0916,
-          "avgPlacement": 4.0935,
-          "firstRate": 0.1495,
-          "top3Rate": 0.2897,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1161|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 98,
-          "appearanceRate": 0.0839,
-          "avgPlacement": 5.4592,
-          "firstRate": 0,
-          "top3Rate": 0.0204,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "7|1061|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 71,
-          "appearanceRate": 0.0608,
-          "avgPlacement": 3.9859,
-          "firstRate": 0.1408,
-          "top3Rate": 0.2958,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "5|1061|1161|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            },
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 54,
-          "appearanceRate": 0.0462,
-          "avgPlacement": 5.8148,
-          "firstRate": 0,
-          "top3Rate": 0,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1061|1161|1241|1271|1281|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 40,
-          "appearanceRate": 0.0342,
-          "avgPlacement": 4.55,
-          "firstRate": 0.1,
-          "top3Rate": 0.2,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1231|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 38,
-          "appearanceRate": 0.0325,
-          "avgPlacement": 3.6053,
-          "firstRate": 0.1316,
-          "top3Rate": 0.4474,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 35,
-          "appearanceRate": 0.03,
-          "avgPlacement": 5.1714,
-          "firstRate": 0.0286,
-          "top3Rate": 0.1143,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "8|1061|1161|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0197,
-          "avgPlacement": 3.913,
-          "firstRate": 0.1739,
-          "top3Rate": 0.3913,
-          "similarity": 0.875
-        },
-        {
-          "lineupKey": "7|1061|1161|1231|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 4.7778,
-          "firstRate": 0.0556,
-          "top3Rate": 0.2222,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1411|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1411",
-              "name": "貂蝉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1411"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 5.2222,
-          "firstRate": 0.0556,
-          "top3Rate": 0.1111,
-          "similarity": 0.75
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_2.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:22.375Z",
@@ -11039,13 +9583,13 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "source": "datawxq.com",
-        "appearanceRate": 0.0264,
-        "avgPlacement": 3.3783,
-        "firstRate": 0.1087,
-        "top3Rate": 0.5366,
-        "count": 423,
-        "variantCount": 6
+        "appearanceRate": 0.0407,
+        "avgPlacement": 3.4795,
+        "firstRate": 0.1014,
+        "top3Rate": 0.5149,
+        "count": 2121,
+        "variantCount": 11,
+        "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -11256,11 +9800,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -12623,12 +11167,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -14200,11 +12744,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0183,
-        "avgPlacement": 3.2483,
-        "firstRate": 0.1973,
-        "top3Rate": 0.551,
-        "count": 294,
+        "appearanceRate": 0.0192,
+        "avgPlacement": 3.2384,
+        "firstRate": 0.2006,
+        "top3Rate": 0.5552,
+        "count": 344,
         "variantCount": 3,
         "source": "datawxq.com"
       },
@@ -14778,11 +13322,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -16848,11 +15392,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -18424,534 +16968,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0728,
-        "avgPlacement": 4.687,
-        "firstRate": 0.0901,
-        "top3Rate": 0.1955,
-        "count": 1166,
+        "appearanceRate": 0.0729,
+        "avgPlacement": 4.7024,
+        "firstRate": 0.091,
+        "top3Rate": 0.1928,
+        "count": 1307,
         "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "6|1061|1161|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 147,
-          "appearanceRate": 0.1259,
-          "avgPlacement": 4.9592,
-          "firstRate": 0.0748,
-          "top3Rate": 0.1429,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 107,
-          "appearanceRate": 0.0916,
-          "avgPlacement": 4.0935,
-          "firstRate": 0.1495,
-          "top3Rate": 0.2897,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1161|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 98,
-          "appearanceRate": 0.0839,
-          "avgPlacement": 5.4592,
-          "firstRate": 0,
-          "top3Rate": 0.0204,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "7|1061|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 71,
-          "appearanceRate": 0.0608,
-          "avgPlacement": 3.9859,
-          "firstRate": 0.1408,
-          "top3Rate": 0.2958,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "5|1061|1161|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            },
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 54,
-          "appearanceRate": 0.0462,
-          "avgPlacement": 5.8148,
-          "firstRate": 0,
-          "top3Rate": 0,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1061|1161|1241|1271|1281|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 40,
-          "appearanceRate": 0.0342,
-          "avgPlacement": 4.55,
-          "firstRate": 0.1,
-          "top3Rate": 0.2,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1231|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 38,
-          "appearanceRate": 0.0325,
-          "avgPlacement": 3.6053,
-          "firstRate": 0.1316,
-          "top3Rate": 0.4474,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 35,
-          "appearanceRate": 0.03,
-          "avgPlacement": 5.1714,
-          "firstRate": 0.0286,
-          "top3Rate": 0.1143,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "8|1061|1161|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0197,
-          "avgPlacement": 3.913,
-          "firstRate": 0.1739,
-          "top3Rate": 0.3913,
-          "similarity": 0.875
-        },
-        {
-          "lineupKey": "7|1061|1161|1231|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 4.7778,
-          "firstRate": 0.0556,
-          "top3Rate": 0.2222,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1411|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1411",
-              "name": "貂蝉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1411"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 5.2222,
-          "firstRate": 0.0556,
-          "top3Rate": 0.1111,
-          "similarity": 0.75
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_3.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:26.104Z",
@@ -19465,12 +17491,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -19653,12 +17679,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -19847,499 +17873,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1259,
-        "avgPlacement": 3.3168,
-        "firstRate": 0.2459,
-        "top3Rate": 0.5245,
-        "count": 2017,
-        "variantCount": 11,
+        "appearanceRate": 0.1248,
+        "avgPlacement": 3.2945,
+        "firstRate": 0.2471,
+        "top3Rate": 0.5317,
+        "count": 2238,
+        "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "5|1141|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 395,
-          "appearanceRate": 0.1985,
-          "avgPlacement": 4.9165,
-          "firstRate": 0.0329,
-          "top3Rate": 0.1165,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "7|1141|1751|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 191,
-          "appearanceRate": 0.096,
-          "avgPlacement": 2.1885,
-          "firstRate": 0.4084,
-          "top3Rate": 0.822,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1141|1751|1861|5011|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5051"
-            }
-          ],
-          "count": 124,
-          "appearanceRate": 0.0623,
-          "avgPlacement": 2.3952,
-          "firstRate": 0.379,
-          "top3Rate": 0.7742,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "5|1141|1861|5011|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "5051"
-            }
-          ],
-          "count": 48,
-          "appearanceRate": 0.0241,
-          "avgPlacement": 4.4792,
-          "firstRate": 0.0417,
-          "top3Rate": 0.2292,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "5|1141|1861|5011|5051|5111",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "5641"
-            }
-          ],
-          "count": 43,
-          "appearanceRate": 0.0216,
-          "avgPlacement": 3.0698,
-          "firstRate": 0.2791,
-          "top3Rate": 0.5581,
-          "similarity": 0.8333
-        },
-        {
-          "lineupKey": "6|1141|1751|1861|5011|5051|5111",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "5641"
-            }
-          ],
-          "count": 43,
-          "appearanceRate": 0.0216,
-          "avgPlacement": 2.1395,
-          "firstRate": 0.4651,
-          "top3Rate": 0.7907,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1751|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1141"
-            }
-          ],
-          "count": 28,
-          "appearanceRate": 0.0141,
-          "avgPlacement": 2.3929,
-          "firstRate": 0.2143,
-          "top3Rate": 0.8214,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1141|1391|1861|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1391",
-              "name": "老夫子"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1391"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0116,
-          "avgPlacement": 3.1739,
-          "firstRate": 0.2609,
-          "top3Rate": 0.5217,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1141|1391|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1391",
-              "name": "老夫子"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1391"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 20,
-          "appearanceRate": 0.0101,
-          "avgPlacement": 5.05,
-          "firstRate": 0.05,
-          "top3Rate": 0.1,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1141|1751|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1751",
-              "name": "钟馗"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1751"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 20,
-          "appearanceRate": 0.0101,
-          "avgPlacement": 4.4,
-          "firstRate": 0.1,
-          "top3Rate": 0.25,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "6|1141|1971|5011|5051|5111|5641",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1141",
-              "name": "刘禅"
-            },
-            {
-              "id": "1971",
-              "name": "弈星"
-            },
-            {
-              "id": "5011",
-              "name": "明世隐"
-            },
-            {
-              "id": "5051",
-              "name": "瑶"
-            },
-            {
-              "id": "5111",
-              "name": "猪八戒"
-            },
-            {
-              "id": "5641",
-              "name": "姬小满"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1971"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.009,
-          "avgPlacement": 5.3889,
-          "firstRate": 0,
-          "top3Rate": 0.0556,
-          "similarity": 0.7143
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_3.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:26.104Z",
@@ -20709,534 +18252,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0728,
-        "avgPlacement": 4.687,
-        "firstRate": 0.0901,
-        "top3Rate": 0.1955,
-        "count": 1166,
+        "appearanceRate": 0.0729,
+        "avgPlacement": 4.7024,
+        "firstRate": 0.091,
+        "top3Rate": 0.1928,
+        "count": 1307,
         "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "6|1061|1161|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 147,
-          "appearanceRate": 0.1259,
-          "avgPlacement": 4.9592,
-          "firstRate": 0.0748,
-          "top3Rate": 0.1429,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 107,
-          "appearanceRate": 0.0916,
-          "avgPlacement": 4.0935,
-          "firstRate": 0.1495,
-          "top3Rate": 0.2897,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1161|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 98,
-          "appearanceRate": 0.0839,
-          "avgPlacement": 5.4592,
-          "firstRate": 0,
-          "top3Rate": 0.0204,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "7|1061|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 71,
-          "appearanceRate": 0.0608,
-          "avgPlacement": 3.9859,
-          "firstRate": 0.1408,
-          "top3Rate": 0.2958,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "5|1061|1161|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            },
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 54,
-          "appearanceRate": 0.0462,
-          "avgPlacement": 5.8148,
-          "firstRate": 0,
-          "top3Rate": 0,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1061|1161|1241|1271|1281|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 40,
-          "appearanceRate": 0.0342,
-          "avgPlacement": 4.55,
-          "firstRate": 0.1,
-          "top3Rate": 0.2,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1231|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 38,
-          "appearanceRate": 0.0325,
-          "avgPlacement": 3.6053,
-          "firstRate": 0.1316,
-          "top3Rate": 0.4474,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 35,
-          "appearanceRate": 0.03,
-          "avgPlacement": 5.1714,
-          "firstRate": 0.0286,
-          "top3Rate": 0.1143,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "8|1061|1161|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0197,
-          "avgPlacement": 3.913,
-          "firstRate": 0.1739,
-          "top3Rate": 0.3913,
-          "similarity": 0.875
-        },
-        {
-          "lineupKey": "7|1061|1161|1231|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 4.7778,
-          "firstRate": 0.0556,
-          "top3Rate": 0.2222,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1411|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1411",
-              "name": "貂蝉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1411"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 5.2222,
-          "firstRate": 0.0556,
-          "top3Rate": 0.1111,
-          "similarity": 0.75
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_3.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:26.104Z",
@@ -23080,12 +20105,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -23264,7 +20289,13 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "source": ""
+        "source": "datawxq.com",
+        "appearanceRate": 0.0145,
+        "avgPlacement": 3.4846,
+        "firstRate": 0.1769,
+        "top3Rate": 0.5038,
+        "count": 260,
+        "variantCount": 6
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -23764,12 +20795,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1432,
-        "avgPlacement": 4.238,
-        "firstRate": 0.146,
-        "top3Rate": 0.2925,
-        "count": 2294,
-        "variantCount": 14,
+        "appearanceRate": 0.1423,
+        "avgPlacement": 4.2335,
+        "firstRate": 0.1457,
+        "top3Rate": 0.2926,
+        "count": 2553,
+        "variantCount": 15,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -24733,11 +21764,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0114,
-        "avgPlacement": 3.9615,
-        "firstRate": 0.1374,
-        "top3Rate": 0.3516,
-        "count": 182,
+        "appearanceRate": 0.0117,
+        "avgPlacement": 3.919,
+        "firstRate": 0.1429,
+        "top3Rate": 0.3619,
+        "count": 210,
         "variantCount": 1,
         "source": "datawxq.com"
       },
@@ -25668,12 +22699,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -26069,11 +23100,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1445,
-        "avgPlacement": 3.168,
-        "firstRate": 0.1693,
-        "top3Rate": 0.5788,
-        "count": 2315,
+        "appearanceRate": 0.1459,
+        "avgPlacement": 3.1536,
+        "firstRate": 0.1704,
+        "top3Rate": 0.5846,
+        "count": 2617,
         "variantCount": 30,
         "source": "datawxq.com"
       },
@@ -28658,12 +25689,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0137,
-        "avgPlacement": 3.0137,
-        "firstRate": 0.1279,
-        "top3Rate": 0.653,
-        "count": 219,
-        "variantCount": 3,
+        "appearanceRate": 0.0149,
+        "avgPlacement": 3.0261,
+        "firstRate": 0.1194,
+        "top3Rate": 0.6455,
+        "count": 268,
+        "variantCount": 4,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -29017,12 +26048,12 @@
         "difficulty": null,
         "equipRate": null,
         "source": "datawxq.com",
-        "appearanceRate": 0.2819,
-        "avgPlacement": 3.8127,
+        "appearanceRate": 0.2809,
+        "avgPlacement": 3.8073,
         "firstRate": 0.1098,
-        "top3Rate": 0.4206,
-        "count": 4517,
-        "variantCount": 26
+        "top3Rate": 0.423,
+        "count": 5038,
+        "variantCount": 25
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
       "variants": null,
@@ -29209,11 +26240,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0531,
-        "avgPlacement": 3.5323,
-        "firstRate": 0.0752,
-        "top3Rate": 0.4971,
-        "count": 851,
+        "appearanceRate": 0.0532,
+        "avgPlacement": 3.5016,
+        "firstRate": 0.0817,
+        "top3Rate": 0.5047,
+        "count": 955,
         "variantCount": 10,
         "source": "datawxq.com"
       },
@@ -29942,11 +26973,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -31506,11 +28537,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.2739,
-        "avgPlacement": 3.1506,
-        "firstRate": 0.1071,
-        "top3Rate": 0.6067,
-        "count": 4389,
+        "appearanceRate": 0.2749,
+        "avgPlacement": 3.154,
+        "firstRate": 0.1077,
+        "top3Rate": 0.6057,
+        "count": 4930,
         "variantCount": 24,
         "source": "datawxq.com"
       },
@@ -33480,12 +30511,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1432,
-        "avgPlacement": 4.238,
-        "firstRate": 0.146,
-        "top3Rate": 0.2925,
-        "count": 2294,
-        "variantCount": 14,
+        "appearanceRate": 0.1423,
+        "avgPlacement": 4.2335,
+        "firstRate": 0.1457,
+        "top3Rate": 0.2926,
+        "count": 2553,
+        "variantCount": 15,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -34333,534 +31364,16 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0728,
-        "avgPlacement": 4.687,
-        "firstRate": 0.0901,
-        "top3Rate": 0.1955,
-        "count": 1166,
+        "appearanceRate": 0.0729,
+        "avgPlacement": 4.7024,
+        "firstRate": 0.091,
+        "top3Rate": 0.1928,
+        "count": 1307,
         "variantCount": 10,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
-      "variants": [
-        {
-          "lineupKey": "6|1061|1161|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 147,
-          "appearanceRate": 0.1259,
-          "avgPlacement": 4.9592,
-          "firstRate": 0.0748,
-          "top3Rate": 0.1429,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 107,
-          "appearanceRate": 0.0916,
-          "avgPlacement": 4.0935,
-          "firstRate": 0.1495,
-          "top3Rate": 0.2897,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "6|1061|1161|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 98,
-          "appearanceRate": 0.0839,
-          "avgPlacement": 5.4592,
-          "firstRate": 0,
-          "top3Rate": 0.0204,
-          "similarity": 0.8571
-        },
-        {
-          "lineupKey": "7|1061|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 71,
-          "appearanceRate": 0.0608,
-          "avgPlacement": 3.9859,
-          "firstRate": 0.1408,
-          "top3Rate": 0.2958,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "5|1061|1161|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            },
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 54,
-          "appearanceRate": 0.0462,
-          "avgPlacement": 5.8148,
-          "firstRate": 0,
-          "top3Rate": 0,
-          "similarity": 0.7143
-        },
-        {
-          "lineupKey": "7|1061|1161|1241|1271|1281|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 40,
-          "appearanceRate": 0.0342,
-          "avgPlacement": 4.55,
-          "firstRate": 0.1,
-          "top3Rate": 0.2,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1231|1241|1271|1281|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1161"
-            }
-          ],
-          "count": 38,
-          "appearanceRate": 0.0325,
-          "avgPlacement": 3.6053,
-          "firstRate": 0.1316,
-          "top3Rate": 0.4474,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 35,
-          "appearanceRate": 0.03,
-          "avgPlacement": 5.1714,
-          "firstRate": 0.0286,
-          "top3Rate": 0.1143,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "8|1061|1161|1241|1271|1281|1461|1671|1861",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            },
-            {
-              "id": "1861",
-              "name": "太乙真人"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1861"
-            }
-          ],
-          "removedHeroes": [],
-          "count": 23,
-          "appearanceRate": 0.0197,
-          "avgPlacement": 3.913,
-          "firstRate": 0.1739,
-          "top3Rate": 0.3913,
-          "similarity": 0.875
-        },
-        {
-          "lineupKey": "7|1061|1161|1231|1241|1271|1281|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1231",
-              "name": "吕布"
-            },
-            {
-              "id": "1241",
-              "name": "周瑜"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1231"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1461"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 4.7778,
-          "firstRate": 0.0556,
-          "top3Rate": 0.2222,
-          "similarity": 0.75
-        },
-        {
-          "lineupKey": "7|1061|1161|1271|1281|1411|1461|1671",
-          "lineupCode": "",
-          "heroes": [
-            {
-              "id": "1061",
-              "name": "小乔"
-            },
-            {
-              "id": "1161",
-              "name": "阿轲"
-            },
-            {
-              "id": "1271",
-              "name": "甄姬"
-            },
-            {
-              "id": "1281",
-              "name": "曹操"
-            },
-            {
-              "id": "1411",
-              "name": "貂蝉"
-            },
-            {
-              "id": "1461",
-              "name": "露娜"
-            },
-            {
-              "id": "1671",
-              "name": "孙悟空"
-            }
-          ],
-          "addedHeroes": [
-            {
-              "id": "1411"
-            }
-          ],
-          "removedHeroes": [
-            {
-              "id": "1241"
-            }
-          ],
-          "count": 18,
-          "appearanceRate": 0.0154,
-          "avgPlacement": 5.2222,
-          "firstRate": 0.0556,
-          "top3Rate": 0.1111,
-          "similarity": 0.75
-        }
-      ],
+      "variants": null,
       "source": "https://game.gtimg.cn/images/amside/ide_timer/598252_oslineupbyrecommend_pro_5.js",
       "sourcePage": "https://wxq.qq.com/cp/a20260707sfgw/teamlist.html",
       "fetchedAt": "2026-11-18T07:26:33.519Z",
@@ -35038,12 +31551,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.1432,
-        "avgPlacement": 4.238,
-        "firstRate": 0.146,
-        "top3Rate": 0.2925,
-        "count": 2294,
-        "variantCount": 14,
+        "appearanceRate": 0.1423,
+        "avgPlacement": 4.2335,
+        "firstRate": 0.1457,
+        "top3Rate": 0.2926,
+        "count": 2553,
+        "variantCount": 15,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -36410,12 +32923,12 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.0715,
-        "avgPlacement": 3.4476,
-        "firstRate": 0.1379,
-        "top3Rate": 0.5279,
-        "count": 1146,
-        "variantCount": 11,
+        "appearanceRate": 0.0758,
+        "avgPlacement": 3.4456,
+        "firstRate": 0.1382,
+        "top3Rate": 0.5272,
+        "count": 1360,
+        "variantCount": 13,
         "source": "datawxq.com"
       },
       "statsNote": "官网阵容列表页不提供平均排名 / 选取率 / 难度 / 穿戴率，未推算。登场率 / 平均名次 / 登顶率 / 前三率 / 场次 / 变阵数来自 datawxq.com，匹配不到则留 null。heroList[].level 源数据恒为 1，不是真实等级。",
@@ -37321,11 +33834,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.218,
-        "avgPlacement": 4.0667,
-        "firstRate": 0.1623,
-        "top3Rate": 0.3215,
-        "count": 3493,
+        "appearanceRate": 0.2175,
+        "avgPlacement": 4.0692,
+        "firstRate": 0.1618,
+        "top3Rate": 0.3222,
+        "count": 3901,
         "variantCount": 30,
         "source": "datawxq.com"
       },
@@ -39585,11 +36098,11 @@
         "pickRate": null,
         "difficulty": null,
         "equipRate": null,
-        "appearanceRate": 0.218,
-        "avgPlacement": 4.0667,
-        "firstRate": 0.1623,
-        "top3Rate": 0.3215,
-        "count": 3493,
+        "appearanceRate": 0.2175,
+        "avgPlacement": 4.0692,
+        "firstRate": 0.1618,
+        "top3Rate": 0.3222,
+        "count": 3901,
         "variantCount": 30,
         "source": "datawxq.com"
       },
@@ -42639,23 +39152,21 @@
   ],
   "statsSnapshot": {
     "source": "datawxq.com",
-    "fetchedAt": "2026-11-21T07:20:57.465Z",
+    "fetchedAt": "2026-11-21T11:49:55.928Z",
     "statisticsScope": "allPlayers",
-    "sampleCount": 96150,
+    "sampleCount": 107614,
     "rosterKeysMatched": 15,
-    "recordsFilled": 36,
-    "partial": true
+    "recordsFilled": 38
   },
   "variantsSnapshot": {
     "source": "datawxq.com",
-    "fetchedAt": null,
-    "provenance": "scripts/fetch_variants.mjs + merge_variants.mjs",
-    "rosterKeysRequested": 13,
-    "rosterKeysFetched": 13,
-    "rosterKeysWithVariants": 13,
-    "recordsFilled": 28,
-    "recordsWithVariants": 28,
-    "variantsTotal": 445,
-    "partial": true
+    "fetchedAt": "2026-11-21T06:37:15.784Z",
+    "provenance": "combined-variants.json（本地快照子集，按清单筛选）",
+    "rosterKeysRequested": 10,
+    "rosterKeysFetched": 10,
+    "rosterKeysWithVariants": 10,
+    "recordsFilled": 22,
+    "recordsWithVariants": 22,
+    "variantsTotal": 371
   }
 }
