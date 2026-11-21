@@ -1,12 +1,12 @@
 // 抓 datawxq.com 的变阵（variants），只抓已经拿到统计数据的阵容。
-// 用法：node scripts/fetch_variants.mjs [--out <json>] [--gap 2500] [--max-retry 4] [--proxy http://127.0.0.1:7890]
+// 用法：node scripts/fetch_variants.mjs [--out <json>] [--keys-file <json>] [--expect-version v261112] [--gap 2500] [--max-retry 4] [--proxy http://127.0.0.1:7890]
 //
 // 签名由页面自己算：脚本在 Runtime.evaluate 里 import 页面已经加载的 seo 模块，
 // 调用它导出的请求封装（内部生成 t/did/nonce/signature）。
 // 不要在 Node 里重放请求头 —— nonce 一次性，重放必返 42000。
 //
 // 只读：不写 data/ 下任何文件。输出默认落 snapshots/probe-variants/fetch-variants.json（已 gitignore）。
-import { spawn, spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -20,9 +20,11 @@ const CHROME_CANDIDATES = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-const USAGE = 'usage: node scripts/fetch_variants.mjs [--out <json>] [--gap <ms>] [--max-retry <n>] [--proxy <url>]';
+const USAGE = 'usage: node scripts/fetch_variants.mjs [--out <json>] [--keys-file <json>] [--expect-version <v>] [--gap <ms>] [--max-retry <n>] [--proxy <url>]';
 const opts = {
   out: path.join(ROOT, 'snapshots', 'probe-variants', 'fetch-variants.json'),
+  keysFile: '',
+  expectVersion: 'v261112',
   gap: 2500,
   maxRetry: 4,
   proxy: '',
@@ -45,6 +47,20 @@ const opts = {
         process.exit(2);
       }
       opts.proxy = v;
+    } else if (a === '--keys-file') {
+      const v = argv[++i];
+      if (!v || v.startsWith('--')) {
+        console.error(USAGE);
+        process.exit(2);
+      }
+      opts.keysFile = v;
+    } else if (a === '--expect-version') {
+      const v = argv[++i];
+      if (!v || v.startsWith('--')) {
+        console.error(USAGE);
+        process.exit(2);
+      }
+      opts.expectVersion = v;
     } else if (a === '--gap' || a === '--max-retry') {
       const v = Number(argv[++i]);
       if (!Number.isFinite(v) || v < 0) {
@@ -84,6 +100,34 @@ if (!targets.size) {
   process.exit(1);
 }
 
+// 分批抓取：必须用 --keys-file 传入 rosterKey 数组（pending-keys.json），只抓这些 key。
+// 校验在启动 Chrome 之前完成，坏输入不会产生任何站点请求。
+if (!opts.keysFile) {
+  console.error('必须用 --keys-file 指定 pending-keys.json（先跑 merge_stats.mjs 生成）');
+  process.exit(2);
+}
+const keysPath = path.resolve(opts.keysFile);
+let list;
+try {
+  list = JSON.parse(fs.readFileSync(keysPath, 'utf8'));
+} catch (e) {
+  console.error(`读不了 --keys-file：${keysPath}（${e.message}）`);
+  process.exit(2);
+}
+if (!Array.isArray(list) || !list.every((k) => typeof k === 'string' && k)) {
+  console.error('--keys-file 必须是字符串数组（rosterKey）');
+  process.exit(2);
+}
+if (list.length === 0) {
+  console.error('--keys-file 为空，无待抓 key');
+  process.exit(0);
+}
+if (new Set(list).size !== list.length) {
+  console.error('--keys-file 里有重复的 rosterKey');
+  process.exit(2);
+}
+const selectedKeys = list;
+
 const chrome = CHROME_CANDIDATES.find((p) => fs.existsSync(p));
 if (!chrome) {
   console.error('找不到 Chrome，可用 CHROME_PATH 指定');
@@ -101,38 +145,11 @@ const proc = spawn(chrome, [
   '--window-size=1600,2400',
   // 指定代理时整页流量走它；本地回环（CDP）除外，否则命令行连不上浏览器。
   ...(opts.proxy ? [`--proxy-server=${opts.proxy}`, '--proxy-bypass-list=<-loopback>'] : []),
+  // 禁用 WebRTC IP 泄露
+  '--disable-features=WebRtcHideLocalIpsWithMdns',
+  '--enforce-webrtc-ip-permission-check',
   'about:blank',
-], { stdio: 'ignore', detached: process.platform !== 'win32' });
-
-// 收尾只走这一处：正常结束、任意报错、Ctrl-C 都要把 Chrome 收掉。
-// Windows 用 taskkill /T 收进程树；其余平台靠 detached 进程组按负 PID 收。
-let chromeKilled = false;
-const killChrome = () => {
-  if (chromeKilled) return;
-  chromeKilled = true;
-  if (!proc.pid) return;
-  if (process.platform === 'win32') {
-    const r = spawnSync('taskkill', ['/pid', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
-    if (r.error) console.error(`taskkill 失败：${r.error.message}`);
-    else if (r.status !== 0 && r.status !== 128) console.error(`taskkill 退出码 ${r.status}`);
-    return;
-  }
-  try {
-    process.kill(-proc.pid, 'SIGKILL');
-  } catch {
-    try { proc.kill(); } catch { /* 已经退出 */ }
-  }
-};
-proc.on('error', (e) => {
-  console.error(`spawn 失败：${e.message}`);
-  killChrome();
-  process.exit(1);
-});
-process.on('exit', killChrome);
-process.on('SIGINT', () => { killChrome(); process.exit(130); });
-process.on('SIGTERM', () => { killChrome(); process.exit(143); });
-process.on('uncaughtException', (e) => { console.error(e); killChrome(); process.exit(1); });
-process.on('unhandledRejection', (e) => { console.error(e); killChrome(); process.exit(1); });
+], { stdio: 'ignore' });
 
 let targetsList = null;
 for (let i = 0; i < 120 && !targetsList; i++) {
@@ -143,7 +160,7 @@ for (let i = 0; i < 120 && !targetsList; i++) {
   }
 }
 if (!targetsList) {
-  killChrome();
+  proc.kill();
   console.error('Chrome 没起来');
   process.exit(1);
 }
@@ -175,7 +192,7 @@ const ev = async (expr) => {
 
 const shutdown = (code) => {
   try { ws.close(); } catch {}
-  killChrome();
+  try { proc.kill(); } catch {}
   process.exit(code);
 };
 
@@ -199,7 +216,7 @@ window.__wxqSearchBody = '';
 `,
 });
 
-console.log('targets:', targets.size, '个 rosterKey（取自 stats.source === "datawxq.com" 的记录）');
+console.log('targets:', targets.size, '个 rosterKey；本批:', selectedKeys.length, opts.keysFile ? '（--keys-file）' : '（全部）');
 
 await send('Page.navigate', { url: 'https://www.datawxq.com/lineups' });
 await sleep(15000);
@@ -215,8 +232,8 @@ if (!base) {
 }
 delete base.page;
 delete base.lineupKey;
-if (base.version !== 'v261112') {
-  console.error(`页面请求模板的 version 是 ${JSON.stringify(base.version)}，不是 v261112。站点改版了，先确认口径再跑。`);
+if (base.version !== opts.expectVersion) {
+  console.error(`页面请求模板的 version 是 ${JSON.stringify(base.version)}，不是 ${opts.expectVersion}。站点改版了，先确认口径再跑；确认后可用 --expect-version 显式放行。`);
   shutdown(1);
 }
 
@@ -239,13 +256,20 @@ if (typeof modulePath !== 'string' || !modulePath) {
 }
 console.log('signer module:', modulePath);
 
-// 在页面上下文里调它导出的 fetch 封装；dz 是 gs 的导出名，会自己生成 t/did/nonce/signature。
+// 在页面上下文里调它导出的签名请求封装。导出名会随版本变，动态查找源码同时含 nonce 和 signature 的函数。
 const callDetail = async (rosterKey) => {
   const body = { ...base, page: 1, pageSize: 12, lineupKey: rosterKey, detailSections: ['ordinary'] };
   const out = await ev(`(async () => {
     try {
       const m = await import(${JSON.stringify(modulePath)});
-      const d = await m.dz(${JSON.stringify(DETAIL_PATH)}, { method: 'POST', body: ${JSON.stringify(body)} });
+      const names = Object.keys(m).filter((n) => {
+        const f = m[n];
+        if (typeof f !== 'function') return false;
+        const s = Function.prototype.toString.call(f);
+        return s.includes('nonce') && s.includes('signature');
+      });
+      if (names.length !== 1) return JSON.stringify({ ok: false, err: 'signer candidates=' + names.join(',') });
+      const d = await m[names[0]](${JSON.stringify(DETAIL_PATH)}, { method: 'POST', body: ${JSON.stringify(body)} });
       return JSON.stringify({ ok: true, data: d });
     } catch (e) {
       return JSON.stringify({ ok: false, err: String(e && e.message || e) });
@@ -277,45 +301,28 @@ const failures = [];
 let blockedStreak = 0;
 let requestCount = 0;
 
-const keys = [...targets.keys()];
+const keys = selectedKeys;
 
 // 先探一次：站点把本机 IP 拒了的时候（42000），逐个重试只是白等。探不通就早退，别烧时间。
-// 探通了就当成第一个 key 的结果，不再重复请求。
+// 探通了就当成第一个 key 的结果，不再重复请求。遇风控记录失败，继续下一个。
 let firstRes = null;
-for (let probe = 1; probe <= 3; probe++) {
-  requestCount++;
-  const r = await callDetail(keys[0]);
-  if (!isBlocked(r.err)) {
-    firstRes = r;
-    break;
-  }
-  if (probe === 3) {
-    console.log('探针仍被拒：', String(r.err).slice(0, 120));
-    console.log('站点对本机 IP 还在限流（42000）。等恢复后再跑，别加频率。');
-    shutdown(1);
-  }
-  console.log(`探针被拒（${probe}/3），30s 后重试`);
-  await sleep(30000);
+requestCount++;
+const probeRes = await callDetail(keys[0]);
+if (isBlocked(probeRes.err)) {
+  console.log('探针被拒：', String(probeRes.err).slice(0, 200));
+  console.log('站点风控生效，记录失败并继续。');
+  failures.push({ rosterKey: keys[0], err: String(probeRes.err || 'probe-blocked') });
+} else {
+  firstRes = probeRes;
 }
 
 for (let idx = 0; idx < keys.length; idx++) {
   const key = keys[idx];
   let res = firstRes;
   firstRes = null;
-  for (let attempts = 1; !res && attempts <= opts.maxRetry; attempts++) {
+  if (!res) {
     requestCount++;
     res = await callDetail(key);
-    if (res.ok) break;
-    if (isTooFew(res.err)) break;
-    if (isBlocked(res.err)) {
-      if (attempts === opts.maxRetry) break;
-      const wait = Math.min(15000 * attempts, 120000);
-      console.log(`  [${idx + 1}/${keys.length}] 被封/异常，${Math.round(wait / 1000)}s 后重试（${attempts}/${opts.maxRetry}）`);
-      await sleep(wait);
-      res = null;
-      continue;
-    }
-    break;
   }
 
   if (res && res.ok) {
@@ -330,15 +337,29 @@ for (let idx = 0; idx < keys.length; idx++) {
     console.log(`  [${idx + 1}/${keys.length}] ${key} → 无数据（${res.err}）`);
   } else {
     failures.push({ rosterKey: key, err: String(res?.err || 'unknown') });
-    console.log(`  [${idx + 1}/${keys.length}] ${key} → 失败：${String(res?.err || '').slice(0, 120)}`);
-    if (isBlocked(res?.err)) blockedStreak++;
-    else blockedStreak = 0;
-    if (blockedStreak >= 3) {
-      console.log('连续 3 个都被站点拒绝，停止。已抓到的先落盘。');
-      break;
+    console.log(`  [${idx + 1}/${keys.length}] ${key} → 失败：${String(res?.err || '').slice(0, 200)}`);
+    if (isBlocked(res?.err)) {
+      console.log('遇到风控错误，记录失败并继续下一个 key。');
+      blockedStreak++;
     }
   }
   if (idx < keys.length - 1) await sleep(opts.gap);
+}
+
+// 断言：requested === keys.length，succeeded + failed === requested，items 里每个 key ∈ keys
+const keySet = new Set(keys);
+if (items.length + failures.length !== keys.length) {
+  console.error(`错误：items.length(${items.length}) + failures.length(${failures.length}) !== keys.length(${keys.length})`);
+  process.exit(1);
+}
+for (const item of items) {
+  if (!keySet.has(item.rosterKey)) {
+    console.error(`错误：items 里的 ${item.rosterKey} 不在 keys 里`);
+    process.exit(1);
+  }
+}
+for (const f of failures) {
+  console.error(`ERR ${f.rosterKey}: ${f.err}`);
 }
 
 const covered = items.filter((i) => i.variants.length > 0).length;
@@ -353,6 +374,7 @@ const payload = {
   withVariants: covered,
   failed: failures.length,
   requestCount,
+  batch: { selection: opts.keysFile ? 'keys-file' : 'all', requestedKeys: keys.length },
   items,
   failures,
 };
