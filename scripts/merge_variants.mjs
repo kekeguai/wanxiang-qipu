@@ -169,7 +169,16 @@ for (const r of comps.records) {
   if (!it) continue; // 没抓到就保持原样（null），不假装查过
 
   const baseIds = (r.heroList || []).map((h) => String(h.id));
-  const list = (it.variants || []).map((v, i) => pickVariant(v, key, baseIds, `${key}#${i}`));
+  const list = (it.variants || [])
+    .map((v, i) => {
+      try {
+        return pickVariant(v, key, baseIds, `${key}#${i}`);
+      } catch (err) {
+        console.warn(`跳过损坏的变阵 ${key}#${i}: ${err.message}`);
+        return null;
+      }
+    })
+    .filter(Boolean);
   if (it.variantCount != null && list.length > it.variantCount) {
     throw new Error(`${key}：变阵 ${list.length} 条，超过站点声明的 ${it.variantCount}`);
   }
