@@ -1,0 +1,12 @@
+{
+  "partial": true,
+  "source": "datawxq.com",
+  "fetchedAt": "2026-11-21T06:37:15.784Z",
+  "provenance": "combined-variants.json（本地快照子集，按清单筛选）",
+  "rosterKeysRequested": 10,
+  "rosterKeysFetched": 10,
+  "rosterKeysWithVariants": 10,
+  "recordsFilled": 22,
+  "recordsWithVariants": 22,
+  "variantsTotal": 371
+}

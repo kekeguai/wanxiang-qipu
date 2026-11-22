@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-11-22T05:28:45.946Z",
+  "policy": "zero external requests until a fetch window is approved by the owner",
+  "deferredFetch": [
+    {
+      "rosterKey": "7|1351|1861|1891|5041|5171|5251|5271",
+      "statsVariantCount": 11,
+      "records": 1,
+      "needs": "full variant bundle from the datawxq detail endpoint; expected at most statsVariantCount entries"
+    },
+    {
+      "rosterKey": "7|1101|1121|1131|1201|1211|5231|5241",
+      "statsVariantCount": 25,
+      "records": 6,
+      "needs": "full variant bundle from the datawxq detail endpoint; expected at most statsVariantCount entries"
+    },
+    {
+      "rosterKey": "7|1861|1871|1891|5011|5171|5211|5771",
+      "statsVariantCount": 6,
+      "records": 1,
+      "needs": "full variant bundle from the datawxq detail endpoint; expected at most statsVariantCount entries"
+    }
+  ],
+  "parked": [
+    {
+      "rosterKey": "7|1421|1591|1831|5031|5041|5141|5631",
+      "statsVariantCount": 8,
+      "bundleVariants": 9,
+      "bundleFile": "combined-variants.json",
+      "action": "hold; refetching cannot reconcile while the detail count exceeds stats.variantCount"
+    },
+    {
+      "rosterKey": "6|1141|1861|5011|5051|5111|5641",
+      "statsVariantCount": 10,
+      "bundleVariants": 11,
+      "bundleFile": "combined-variants.json",
+      "action": "hold; refetching cannot reconcile while the detail count exceeds stats.variantCount"
+    },
+    {
+      "rosterKey": "7|1061|1161|1241|1271|1281|1461|1671",
+      "statsVariantCount": 10,
+      "bundleVariants": 11,
+      "bundleFile": "combined-variants.json",
+      "action": "hold; refetching cannot reconcile while the detail count exceeds stats.variantCount"
+    }
+  ],
+  "permanentSkip": [
+    {
+      "rosterKey": "6|1211|1771|1861|5231|5251|5271",
+      "reason": "parent-roster-mismatch",
+      "action": "never fetch",
+      "evidence": {
+        "file": "combined-variants.json",
+        "variants": 9,
+        "foreignRemoved": 5,
+        "foreignIds": {
+          "1751": 5
+        },
+        "childSizes": {
+          "6": 2,
+          "7": 7
+        },
+        "baseSize": 6
+      }
+    }
+  ]
+}

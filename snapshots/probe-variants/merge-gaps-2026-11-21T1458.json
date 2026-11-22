@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-11-21T14:58:15.312Z",
+  "input": "curated-variants-20261121142310.json",
+  "variantsFetchedAt": "2026-11-21T06:37:15.784Z",
+  "statsFetchedAt": "2026-11-21T11:49:55.928Z",
+  "note": "stats 与 variants 的快照时间不同（stats 11:49Z / variants 06:37Z）。SHORT/OVERFLOW 可能与抓取时点或查询口径不同有关，原因未证实。",
+  "mergedKeys": [
+    {
+      "rosterKey": "4|1941|5021|5211|5371",
+      "got": 1,
+      "declared": 1
+    },
+    {
+      "rosterKey": "6|1061|1231|1271|1281|1411|1841",
+      "got": 30,
+      "declared": 30
+    },
+    {
+      "rosterKey": "6|1481|1661|5371|5451|5631|5641",
+      "got": 14,
+      "declared": 14
+    },
+    {
+      "rosterKey": "7|1141|1181|1761|1821|1861|1901|5011",
+      "got": 3,
+      "declared": 3
+    },
+    {
+      "rosterKey": "7|1141|1441|1731|1751|1861|3121|5011",
+      "got": 3,
+      "declared": 3
+    },
+    {
+      "rosterKey": "7|1191|1491|1861|1891|5051|5171|5771",
+      "got": 11,
+      "declared": 11
+    },
+    {
+      "rosterKey": "7|1441|1541|1751|1861|1931|5011|5071",
+      "got": 29,
+      "declared": 29
+    },
+    {
+      "rosterKey": "7|1501|1831|1861|5031|5051|5061|5141",
+      "got": 5,
+      "declared": 5
+    },
+    {
+      "rosterKey": "7|1561|1741|1871|1891|5171|5191|5771",
+      "got": 10,
+      "declared": 10
+    },
+    {
+      "rosterKey": "7|1561|1741|1891|1991|5051|5061|5771",
+      "got": 24,
+      "declared": 24
+    }
+  ],
+  "skippedStructurallyIncompatible": [
+    "6|1211|1771|1861|5231|5251|5271"
+  ],
+  "notMerged": [
+    {
+      "rosterKey": "6|1141|1861|5011|5051|5111|5641",
+      "reason": "未被本次输入覆盖",
+      "records": 2,
+      "statsVariantCount": 10,
+      "variantsLeftNull": 2
+    },
+    {
+      "rosterKey": "7|1061|1161|1241|1271|1281|1461|1671",
+      "reason": "未被本次输入覆盖",
+      "records": 4,
+      "statsVariantCount": 10,
+      "variantsLeftNull": 4
+    },
+    {
+      "rosterKey": "7|1101|1121|1131|1201|1211|5231|5241",
+      "reason": "未被本次输入覆盖",
+      "records": 7,
+      "statsVariantCount": 25,
+      "variantsLeftNull": 7
+    },
+    {
+      "rosterKey": "7|1351|1861|1891|5041|5171|5251|5271",
+      "reason": "未被本次输入覆盖",
+      "records": 1,
+      "statsVariantCount": 11,
+      "variantsLeftNull": 1
+    },
+    {
+      "rosterKey": "7|1421|1591|1831|5031|5041|5141|5631",
+      "reason": "未被本次输入覆盖",
+      "records": 2,
+      "statsVariantCount": 8,
+      "variantsLeftNull": 2
+    },
+    {
+      "rosterKey": "7|1861|1871|1891|5011|5171|5211|5771",
+      "reason": "未被本次输入覆盖",
+      "records": 1,
+      "statsVariantCount": 6,
+      "variantsLeftNull": 1
+    }
+  ],
+  "totals": {
+    "recordsFilled": 22,
+    "recordsWithVariants": 22,
+    "variantsTotal": 371
+  },
+  "heroesCoverageGapFile": "snapshots/probe-variants/heroes-coverage-gap-2026-11-21.json",
+  "variantsBacklogFile": "snapshots/probe-variants/variants-backlog-2026-11-22.json",
+  "resolution": "parked over-caliber keys and the parent-roster-mismatch key are recorded in known-skip-keys.json; only deferredFetch keys remain to be fetched"
+}
