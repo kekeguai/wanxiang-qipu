@@ -9,6 +9,12 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  assembleOutput,
+  isAntiBotMessage,
+  AntiBotError,
+  InvariantError,
+} from './lib/variant-invariants.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CHROME_CANDIDATES = [
@@ -283,7 +289,7 @@ const callDetail = async (rosterKey) => {
   }
 };
 
-const isBlocked = (err) => /系统异常|42000|请求参数异常/.test(String(err || ''));
+const isBlocked = (err) => isAntiBotMessage(String(err || ''));
 const isTooFew = (err) => /样本过少/.test(String(err || ''));
 
 // 抓取阶段只挑字段、不造值：缺什么就留缺，缺字段由 merge_variants.mjs 报错，不在这里补 null。
@@ -298,92 +304,156 @@ const pickVariant = (v) => {
 
 const items = [];
 const failures = [];
-let blockedStreak = 0;
 let requestCount = 0;
+let aborted = false;
+let abortReason = '';
+const attemptedKeys = new Set();
+const doneKeys = new Set();
+const beginAttempt = (key) => { attemptedKeys.add(String(key)); };
 
 const keys = selectedKeys;
 
-// 先探一次：站点把本机 IP 拒了的时候（42000），逐个重试只是白等。探不通就早退，别烧时间。
-// 探通了就当成第一个 key 的结果，不再重复请求。遇风控记录失败，继续下一个。
+// 每次 detail 调用前登记 key。风控命中立即抛出，整个窗口停止，不重试、不换 key。
+const requestOne = async (key) => {
+  beginAttempt(key);
+  requestCount++;
+  const res = await callDetail(key);
+  if (isBlocked(res?.err)) {
+    const err = String(res.err || 'blocked');
+    failures.push({ rosterKey: key, err });
+    doneKeys.add(String(key));
+    throw new AntiBotError(err, { key, raw: err });
+  }
+  doneKeys.add(String(key));
+  return res;
+};
+
+// 探针结果作为第一个 key 的结果复用，避免同一 key 被重复请求。
 let firstRes = null;
-requestCount++;
-const probeRes = await callDetail(keys[0]);
-if (isBlocked(probeRes.err)) {
-  console.log('探针被拒：', String(probeRes.err).slice(0, 200));
-  console.log('站点风控生效，记录失败并继续。');
-  failures.push({ rosterKey: keys[0], err: String(probeRes.err || 'probe-blocked') });
-} else {
-  firstRes = probeRes;
+if (keys.length) {
+  const k0 = keys[0];
+  beginAttempt(k0);
+  requestCount++;
+  try {
+    firstRes = await callDetail(k0);
+    if (isBlocked(firstRes?.err)) {
+      const err = String(firstRes.err || 'blocked');
+      failures.push({ rosterKey: k0, err });
+      doneKeys.add(String(k0));
+      throw new AntiBotError(err, { key: k0, raw: err });
+    }
+    doneKeys.add(String(k0));
+  } catch (e) {
+    if (e instanceof AntiBotError) {
+      aborted = true;
+      abortReason = 'anti-bot';
+      console.error('风控中止：' + e.message);
+      doneKeys.add(String(k0));
+    } else {
+      const err = String(e?.message ?? e);
+      failures.push({ rosterKey: k0, message: err });
+      doneKeys.add(String(k0));
+      if (isAntiBotMessage(err)) {
+        aborted = true;
+        abortReason = 'anti-bot';
+        console.error('风控中止：' + err);
+      } else {
+        firstRes = { ok: false, err };
+      }
+    }
+  }
 }
 
 for (let idx = 0; idx < keys.length; idx++) {
+  if (aborted) break;
   const key = keys[idx];
+  if (doneKeys.has(String(key))) {
+    if (idx === 0 && firstRes) {
+      // 探针结果已经属于第一个 key；继续下面的统一结果处理。
+    } else {
+      continue;
+    }
+  }
   let res = firstRes;
   firstRes = null;
   if (!res) {
-    requestCount++;
-    res = await callDetail(key);
+    try {
+      res = await requestOne(key);
+    } catch (e) {
+      if (e instanceof AntiBotError || isAntiBotMessage(e?.message || e)) {
+        aborted = true;
+        abortReason = 'anti-bot';
+        console.error('风控中止：' + String(e?.message || e));
+        break;
+      }
+      throw e;
+    }
   }
 
   if (res && res.ok) {
-    blockedStreak = 0;
     const d = res.data || {};
     const variants = (d.variants || []).map(pickVariant);
     items.push({ rosterKey: key, variantCount: d.variantCount ?? null, variants });
     console.log(`  [${idx + 1}/${keys.length}] ${key} → variants ${variants.length}（声明 ${d.variantCount ?? '?'}）`);
   } else if (res && isTooFew(res.err)) {
-    blockedStreak = 0;
     items.push({ rosterKey: key, variantCount: 0, variants: [] });
     console.log(`  [${idx + 1}/${keys.length}] ${key} → 无数据（${res.err}）`);
   } else {
-    failures.push({ rosterKey: key, err: String(res?.err || 'unknown') });
-    console.log(`  [${idx + 1}/${keys.length}] ${key} → 失败：${String(res?.err || '').slice(0, 200)}`);
-    if (isBlocked(res?.err)) {
-      console.log('遇到风控错误，记录失败并继续下一个 key。');
-      blockedStreak++;
+    const err = String(res?.err || 'unknown');
+    failures.push({ rosterKey: key, err });
+    console.log(`  [${idx + 1}/${keys.length}] ${key} → 失败：${err.slice(0, 200)}`);
+    doneKeys.add(String(key));
+    if (isBlocked(err)) {
+      aborted = true;
+      abortReason = 'anti-bot';
+      console.error('风控中止：' + err);
+      break;
     }
   }
+  doneKeys.add(String(key));
   if (idx < keys.length - 1) await sleep(opts.gap);
 }
 
-// 断言：requested === keys.length，succeeded + failed === requested，items 里每个 key ∈ keys
-const keySet = new Set(keys);
-if (items.length + failures.length !== keys.length) {
-  console.error(`错误：items.length(${items.length}) + failures.length(${failures.length}) !== keys.length(${keys.length})`);
-  process.exit(1);
-}
-for (const item of items) {
-  if (!keySet.has(item.rosterKey)) {
-    console.error(`错误：items 里的 ${item.rosterKey} 不在 keys 里`);
-    process.exit(1);
+let result;
+try {
+  result = assembleOutput({
+    keys,
+    items,
+    failures, // 原始列表，去重由 assembleOutput 内部完成
+    attemptedKeys: [...attemptedKeys],
+    outPath: opts.out,
+    aborted,
+    abortReason,
+    meta: {
+      source: DWXQ_SOURCE,
+      endpoint: `https://api.datatft.com${DETAIL_PATH}`,
+      fetchedAt: new Date().toISOString(),
+      query: base,
+      queryNote: '请求体由页面自己的签名封装发出（seo 模块导出的 gs/dz）；签名与 nonce 绑定，无法在 Node 里重放。',
+      requestCount,
+      batch: { selection: opts.keysFile ? 'keys-file' : 'all', requestedKeys: keys.length },
+    },
+    writeFile: (p, text) => {
+      fs.mkdirSync(path.dirname(p), { recursive: true });
+      fs.writeFileSync(p, text, 'utf8');
+    },
+  });
+} catch (e) {
+  if (e instanceof InvariantError) {
+    for (const problem of e.problems || [e.message]) console.error(problem);
+    shutdown(1);
   }
-}
-for (const f of failures) {
-  console.error(`ERR ${f.rosterKey}: ${f.err}`);
+  throw e;
 }
 
-const covered = items.filter((i) => i.variants.length > 0).length;
-const payload = {
-  source: DWXQ_SOURCE,
-  endpoint: `https://api.datatft.com${DETAIL_PATH}`,
-  fetchedAt: new Date().toISOString(),
-  query: base,
-  queryNote: '请求体由页面自己的签名封装发出（seo 模块导出的 gs/dz）；签名与 nonce 绑定，无法在 Node 里重放。',
-  requested: keys.length,
-  succeeded: items.length,
-  withVariants: covered,
-  failed: failures.length,
-  requestCount,
-  batch: { selection: opts.keysFile ? 'keys-file' : 'all', requestedKeys: keys.length },
-  items,
-  failures,
-};
-
-fs.mkdirSync(path.dirname(opts.out), { recursive: true });
-fs.writeFileSync(opts.out, JSON.stringify(payload, null, 1) + '\n', 'utf8');
-
-console.log('out:', path.relative(ROOT, opts.out) || opts.out);
-console.log('rosterKeys:', keys.length, '有变阵:', covered, '失败:', failures.length, '请求次数:', requestCount);
+for (const f of result.failures) console.error(`ERR ${f.rosterKey}: ${f.err}`);
+console.log(`written: ${opts.out}（requested=${result.requested} succeeded=${result.succeeded} failed=${result.failed} unattempted=${result.unattempted} aborted=${result.aborted}）`);
 console.log('bytes:', fs.statSync(opts.out).size);
 
-shutdown(failures.length && !items.length ? 1 : 0);
+if (aborted) {
+  console.error(`中止窗口：${abortReason}，输出已写盘，退出码 3`);
+  await shutdown(3);
+  process.exit(3);
+} else {
+  shutdown(result.failed && !result.succeeded ? 1 : 0);
+}
