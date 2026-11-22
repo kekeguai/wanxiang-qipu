@@ -47,6 +47,23 @@ const VARIANT_KEYS = ['lineupKey', 'lineupCode', 'heroes', 'addedHeroes', 'remov
 const rosterKeyOf = (heroList) =>
   [heroList.length, ...heroList.map((h) => String(h.id)).sort()].join('|');
 
+// skip 清单加载
+const SKIP_PATH = path.join(ROOT, 'snapshots', 'probe-variants', 'known-skip-keys.json');
+const loadSkipKeys = () => {
+  if (!fs.existsSync(SKIP_PATH)) return new Map();
+  const raw = JSON.parse(fs.readFileSync(SKIP_PATH, 'utf8'));
+  if (!Array.isArray(raw.keys)) throw new Error('known-skip-keys.json: keys 必须是数组');
+  const m = new Map();
+  for (const e of raw.keys) {
+    if (!e || typeof e.rosterKey !== 'string' || !e.rosterKey) {
+      throw new Error(`known-skip-keys.json 条目缺 rosterKey: ${JSON.stringify(e)}`);
+    }
+    m.set(e.rosterKey, e.reason);
+  }
+  return m;
+};
+const skipKeys = loadSkipKeys();
+
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
 const isInt = (v) => Number.isInteger(v) && v >= 0;
 
@@ -56,6 +73,10 @@ if (!fs.existsSync(opts.in)) {
 }
 
 const snap = JSON.parse(fs.readFileSync(opts.in, 'utf8'));
+if (typeof snap.fetchedAt !== 'string' || !snap.fetchedAt) {
+  console.error(`输入快照缺 fetchedAt，拒绝合并: ${opts.in}`);
+  process.exit(1);
+}
 const byKey = new Map();
 for (const it of snap.items || []) {
   if (it && typeof it.rosterKey === 'string') byKey.set(it.rosterKey, it);
@@ -124,28 +145,34 @@ const comps = JSON.parse(fs.readFileSync(compsPath, 'utf8'));
 
 // 抓取可能因站点限流提前收尾，也可能只探了部分 rosterKey；拿这种文件合并会整体覆写
 // variantsSnapshot 与 note，把上一次的全量记录换成部分数据。
-// 对账：requested / succeeded / items 必须是有限数且自洽，并且覆盖 comps 里所有需要变阵的 rosterKey。
+// 对账：集合覆盖（comps 需要的 rosterKey 都在快照里，skip 除外）、requested / succeeded 自洽、
+//      未因 --max-pages 触顶提前退出。
 const neededKeys = new Set(
   comps.records
     .filter((r) => r?.stats?.source === DWXQ_SOURCE)
-    .map((r) => rosterKeyOf(r.heroList || [])),
+    .map((r) => rosterKeyOf(r.heroList || []))
+    .filter((k) => !skipKeys.has(k)),
 );
+const snapKeys = new Set((snap.items || []).map((it) => it.rosterKey));
+const missingKeys = [...neededKeys].filter((k) => !snapKeys.has(k));
+
 const requested = snap.requested;
 const succeeded = snap.succeeded;
 const itemCount = (snap.items || []).length;
 const fetchedKeys = byKey.size;
-const missingKeys = [...neededKeys].filter((k) => !byKey.has(k));
-const partial =
-  !isNum(requested) || !isNum(succeeded) ||
-  requested !== succeeded || succeeded !== fetchedKeys || itemCount !== fetchedKeys ||
-  missingKeys.length > 0;
+const countsMatch = isNum(requested) && isNum(succeeded) && requested === succeeded && succeeded === fetchedKeys && itemCount === fetchedKeys;
+const partial = missingKeys.length > 0 || !countsMatch;
+
 if (partial) {
-  console.error(
-    `抓取结果不完整：rosterKeysRequested=${isNum(requested) ? requested : '(缺失)'}，` +
-    `rosterKeysFetched=${fetchedKeys}（succeeded=${isNum(succeeded) ? succeeded : '(缺失)'}，items=${itemCount}），` +
-    `comps 需要 ${neededKeys.size} 个 rosterKey，缺 ${missingKeys.length} 个` +
-    (missingKeys.length ? `（如 ${missingKeys[0]}）` : ''),
-  );
+  const reasons = [];
+  if (missingKeys.length) reasons.push(`缺 ${missingKeys.length} 个 key（如 ${missingKeys[0]}）`);
+  if (!countsMatch) {
+    reasons.push(
+      `requested=${isNum(requested) ? requested : '?'} / succeeded=${isNum(succeeded) ? succeeded : '?'} / ` +
+      `items=${itemCount} / fetchedKeys=${fetchedKeys} 不一致`,
+    );
+  }
+  console.error(`抓取结果不完整：${reasons.join('；')}`);
   if (!opts.allowPartial) {
     console.error('部分数据会整体覆写 variantsSnapshot，已拒绝合并；确认要合并请加 --allow-partial');
     process.exit(1);
@@ -157,6 +184,7 @@ let recordsFilled = 0;
 let recordsWithVariants = 0;
 let variantTotal = 0;
 let skippedNoStats = 0;
+let skippedStructurallyIncompatible = 0;
 const hitKeys = new Set();
 
 for (const r of comps.records) {
@@ -165,13 +193,33 @@ for (const r of comps.records) {
     continue;
   }
   const key = rosterKeyOf(r.heroList || []);
+  if (skipKeys.has(key)) {
+    skippedStructurallyIncompatible++;
+    continue;
+  }
   const it = byKey.get(key);
   if (!it) continue; // 没抓到就保持原样（null），不假装查过
 
   const baseIds = (r.heroList || []).map((h) => String(h.id));
-  const list = (it.variants || []).map((v, i) => pickVariant(v, key, baseIds, `${key}#${i}`));
-  if (it.variantCount != null && list.length > it.variantCount) {
-    throw new Error(`${key}：变阵 ${list.length} 条，超过站点声明的 ${it.variantCount}`);
+  const errors = [];
+  const list = [];
+  for (let i = 0; i < (it.variants || []).length; i++) {
+    try {
+      list.push(pickVariant(it.variants[i], key, baseIds, `${key}#${i}`));
+    } catch (e) {
+      errors.push(e.message);
+    }
+  }
+  if (errors.length) {
+    errors.forEach((m) => console.error('ERR ' + m));
+    console.error(`共 ${errors.length} 条校验失败，拒绝合并、不写文件`);
+    process.exit(1);
+  }
+  if (typeof r.stats?.variantCount === 'number' && list.length > r.stats.variantCount) {
+    throw new Error(`${key}：变阵 ${list.length} 条，超过 stats.variantCount=${r.stats.variantCount}`);
+  }
+  if (typeof r.stats?.variantCount === 'number' && list.length < r.stats.variantCount) {
+    console.warn(`${key}：变阵 ${list.length} 条 < stats.variantCount=${r.stats.variantCount}（站点变阵数减少，记入 report）`);
   }
   r.variants = list;
   recordsFilled++;
@@ -180,6 +228,11 @@ for (const r of comps.records) {
     recordsWithVariants++;
     variantTotal += list.length;
   }
+}
+
+if (skippedStructurallyIncompatible) {
+  const skippedKeyList = [...skipKeys.keys()].join(', ');
+  console.log(`跳过 ${skippedStructurallyIncompatible} 个结构不兼容 key：${skippedKeyList}`);
 }
 
 const withVariantsKeys = [...byKey.values()].filter((i) => (i.variants || []).length).length;
@@ -211,7 +264,7 @@ if (!(comps.notes || []).some((n) => n.startsWith('variants '))) {
 }
 comps.variantsSnapshot = {
   source: DWXQ_SOURCE,
-  fetchedAt: snap.fetchedAt || null,
+  fetchedAt: snap.fetchedAt,
   provenance,
   rosterKeysRequested: isNum(requested) ? requested : null,
   rosterKeysFetched: fetchedKeys,
@@ -219,8 +272,14 @@ comps.variantsSnapshot = {
   recordsFilled,
   recordsWithVariants,
   variantsTotal: variantTotal,
-  ...(partial ? { partial: true } : {}),
 };
 
 fs.writeFileSync(compsPath, JSON.stringify(comps, null, 2) + '\n', 'utf8');
 console.log('written:', path.relative(ROOT, compsPath), 'bytes:', fs.statSync(compsPath).size);
+
+if (partial) {
+  const ts = new Date().toISOString().replace(/[:.]/g, '').slice(0, 15);
+  const reportPath = path.join(ROOT, 'snapshots', 'probe-variants', `merge-report-${ts}.json`);
+  fs.writeFileSync(reportPath, JSON.stringify({ partial: true, ...comps.variantsSnapshot }, null, 2) + '\n', 'utf8');
+  console.log('partial report:', path.relative(ROOT, reportPath));
+}

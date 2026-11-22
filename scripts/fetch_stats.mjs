@@ -21,18 +21,31 @@ const CHROME_CANDIDATES = [
 ].filter(Boolean);
 
 const USAGE = 'usage: node scripts/fetch_stats.mjs [--out <json>] [--max-pages 40]';
-const opts = { out: path.join(ROOT, 'snapshots', 'probe-stats', 'search-stats.json'), maxPages: 40 };
+const opts = {
+  out: (() => {
+    const ts = new Date().toISOString().replace(/[:.]/g, '').slice(0, 15);
+    return path.join(ROOT, 'snapshots', 'probe-stats', `stats-${ts}.json`);
+  })(),
+  maxPages: 40
+};
 {
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === '--out' || a === '--max-pages') {
+    if (a === '--out') {
       const v = argv[++i];
       if (!v || v.startsWith('--')) {
         console.error(USAGE);
         process.exit(2);
       }
-      opts[a.slice(2).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = v;
+      opts.out = v;
+    } else if (a === '--max-pages') {
+      const v = argv[++i];
+      if (!v || v.startsWith('--')) {
+        console.error(USAGE);
+        process.exit(2);
+      }
+      opts.maxPages = v;
     } else if (a === '-h' || a === '--help') {
       console.log(USAGE);
       process.exit(0);
@@ -171,7 +184,8 @@ const netFail = netFails.find(
   (f) =>
     f.errorText.startsWith('net::ERR_') &&
     f.errorText !== 'net::ERR_ABORTED' &&
-    (f.type === 'Document' || /datawxq\.com|datatft\.com/.test(f.url)),
+    f.type === 'Document' &&
+    /datawxq\.com|datatft\.com/.test(f.url),
 );
 if (netFail) {
   ws.close();

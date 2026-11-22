@@ -14,8 +14,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const USAGE = 'usage: node scripts/merge_stats.mjs [--in <json>] [--dry] [--allow-partial]';
-const opts = { in: path.join(ROOT, 'snapshots', 'probe-stats', 'search-stats.json'), dry: false, allowPartial: false };
+const USAGE = 'usage: node scripts/merge_stats.mjs [--in <json>] [--dry] [--allow-partial] [--emit-pending]';
+const opts = { in: path.join(ROOT, 'snapshots', 'probe-stats', 'search-stats.json'), dry: false, allowPartial: false, emitPending: false };
 {
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
@@ -31,6 +31,8 @@ const opts = { in: path.join(ROOT, 'snapshots', 'probe-stats', 'search-stats.jso
       opts.dry = true;
     } else if (a === '--allow-partial') {
       opts.allowPartial = true;
+    } else if (a === '--emit-pending') {
+      opts.emitPending = true;
     } else if (a === '-h' || a === '--help') {
       console.log(USAGE);
       process.exit(0);
@@ -51,12 +53,88 @@ const STATS_NOTE =
 const rosterKeyOf = (heroList) =>
   [heroList.length, ...heroList.map((h) => String(h.id)).sort()].join('|');
 
+// skip 清单加载 —— 必须最前
+const SKIP_PATH = path.join(ROOT, 'snapshots', 'probe-variants', 'known-skip-keys.json');
+const loadSkipKeys = () => {
+  if (!fs.existsSync(SKIP_PATH)) return new Map();
+  const raw = JSON.parse(fs.readFileSync(SKIP_PATH, 'utf8'));
+  if (!Array.isArray(raw.keys)) throw new Error('known-skip-keys.json: keys 必须是数组');
+  const m = new Map();
+  for (const e of raw.keys) {
+    if (!e || typeof e.rosterKey !== 'string' || !e.rosterKey) {
+      throw new Error(`known-skip-keys.json 条目缺 rosterKey: ${JSON.stringify(e)}`);
+    }
+    if (typeof e.reason !== 'string' || !e.reason.trim()) {
+      throw new Error(`known-skip-keys.json ${e.rosterKey} 缺 reason（不许空着）`);
+    }
+    m.set(e.rosterKey, e.reason);
+  }
+  return m;
+};
+const skipKeys = loadSkipKeys();
+
+// comps 提前加载
+const compsPath = path.join(ROOT, 'data', 'comps.json');
+const comps = JSON.parse(fs.readFileSync(compsPath, 'utf8'));
+
+// pending 导出函数
+const exportPendingKeys = () => {
+  const pkPath = path.join(ROOT, 'snapshots', 'probe-variants', 'pending-keys.json');
+  if (fs.existsSync(pkPath)) {
+    const ts = new Date().toISOString().replace(/[:.]/g, '').slice(0, 15);
+    fs.renameSync(pkPath, path.join(ROOT, 'snapshots', 'probe-variants', `pending-keys-${ts}.json`));
+  }
+  const needed = new Set();
+  const covered = new Set();
+  for (const r of comps.records) {
+    if (r?.stats?.source !== DWXQ_SOURCE) continue;
+    const k = rosterKeyOf(r.heroList || []);
+    if (skipKeys.has(k)) continue;
+    needed.add(k);
+    if (Array.isArray(r.variants)) covered.add(k);
+  }
+
+  // 陈旧性护栏
+  const noStats = comps.records.filter(
+    (r) => r && r.stats && r.stats.source === '' &&
+           r.stats.count === undefined && r.stats.appearanceRate === undefined,
+  );
+  if (noStats.length) {
+    const keys = [...new Set(noStats.map((r) => rosterKeyOf(r.heroList || [])))];
+    console.warn('');
+    console.warn('!!! STATS_INCOMPLETE=' + noStats.length + ' 条记录尚未合并统计');
+    console.warn('!!! 涉及 ' + keys.length + ' 个 rosterKey：' + keys.join(', '));
+    console.warn('!!! 这些 key 不在本 pending 清单内，直接抓取会漏。');
+    console.warn('!!! 正确顺序：先重抓 stats → merge_stats 成功 → 再 --emit-pending');
+    console.warn('');
+  }
+
+  const pending = [...needed].filter((k) => !covered.has(k)).sort();
+  fs.writeFileSync(pkPath, JSON.stringify(pending, null, 2) + '\n', 'utf8');
+  console.log(
+    `pending-keys: 需要 ${needed.size}，已覆盖 ${covered.size}，` +
+    `待抓 ${pending.length}，跳过 ${skipKeys.size}`,
+  );
+  return pending;
+};
+
+// --emit-pending 独立入口
+if (opts.emitPending) {
+  exportPendingKeys();
+  process.exit(0);
+}
+
+// 断言 --in 存在 + 读 snap
 if (!fs.existsSync(opts.in)) {
   console.error(`找不到抓取结果: ${opts.in}\n先跑 node scripts/fetch_stats.mjs`);
   process.exit(1);
 }
 
 const snap = JSON.parse(fs.readFileSync(opts.in, 'utf8'));
+if (typeof snap.fetchedAt !== 'string' || !snap.fetchedAt) {
+  console.error(`输入快照缺 fetchedAt，拒绝合并: ${opts.in}`);
+  process.exit(1);
+}
 const byKey = new Map();
 for (const l of snap.lineups || []) {
   if (l && typeof l.rosterKey === 'string') byKey.set(l.rosterKey, l);
@@ -66,25 +144,59 @@ if (!byKey.size) {
   process.exit(1);
 }
 
-// 抓取可能因 --max-pages 触顶或连续无新增而提前收尾，此时 lineupsFetched < sampleCount。
-// 拿这种文件合并会把未命中阵容的统计清空，所以默认拒绝，--allow-partial 显式放行。
+// 算 neededKeys（排除 skip）+ 集合差 missingKeys
+const neededKeys = new Set(
+  comps.records
+    .filter((r) => r?.stats?.source === DWXQ_SOURCE)
+    .map((r) => rosterKeyOf(r.heroList || []))
+    .filter((k) => !skipKeys.has(k)),
+);
+const snapKeys = new Set((snap.lineups || []).map((l) => l.rosterKey));
+const missingKeys = [...neededKeys].filter((k) => !snapKeys.has(k));
+
+// partial 判据：
+// ① 分页是否走完 —— 真截断信号
+// ② 集合覆盖（已有统计的 key 是否全被抓到）
+// ③ 环比上份快照 —— warn only
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
+
 const fetched = snap.coverage?.lineupsFetched;
-const sampleCount = snap.sampleCount;
-const partial = !isNum(fetched) || !isNum(sampleCount) || fetched < sampleCount;
+const total = snap.total;
+const partialReasons = [];
+
+// ① 分页是否走完
+if (!isNum(fetched) || !isNum(total)) {
+  partialReasons.push(`coverage.lineupsFetched 或 total 缺失（fetched=${fetched}, total=${total}）`);
+} else if (fetched !== total) {
+  partialReasons.push(`分页未走完：lineupsFetched=${fetched} < total=${total}`);
+}
+
+// ② 集合覆盖（已有）
+if (missingKeys.length) partialReasons.push(`缺 ${missingKeys.length} 个 key：${missingKeys.join(', ')}`);
+
+// ③ 环比上份快照 —— warn only，不进 partialReasons
+const prev = fs.readdirSync(path.join(ROOT,'snapshots','probe-stats'))
+  .filter((f) => /^stats-\d{8}-\d{6}\.json$/.test(f))
+  .map((f) => path.join(ROOT,'snapshots','probe-stats',f))
+  .filter((p) => path.resolve(p) !== path.resolve(opts.in))
+  .sort();
+if (prev.length) {
+  const prevSnap = JSON.parse(fs.readFileSync(prev[prev.length-1],'utf8'));
+  if (isNum(prevSnap.sampleCount) && isNum(snap.sampleCount)
+      && snap.sampleCount < prevSnap.sampleCount * 0.8) {
+    console.warn(`WARN 样本量倒退：${snap.sampleCount} < 上份 ${prevSnap.sampleCount} 的 80%`);
+  }
+}
+
+const partial = partialReasons.length > 0;
 if (partial) {
-  console.error(
-    `抓取结果不完整：coverage.lineupsFetched=${isNum(fetched) ? fetched : '(缺失)'}，sampleCount=${isNum(sampleCount) ? sampleCount : '(缺失)'}`,
-  );
+  partialReasons.forEach((reason) => console.error(reason));
   if (!opts.allowPartial) {
-    console.error('部分数据会把未命中的阵容统计清空，已拒绝合并；确认要合并请加 --allow-partial');
+    console.error('确认要合并请加 --allow-partial');
     process.exit(1);
   }
   console.warn('--allow-partial：允许合并部分数据');
 }
-
-const compsPath = path.join(ROOT, 'data', 'comps.json');
-const comps = JSON.parse(fs.readFileSync(compsPath, 'utf8'));
 
 let hit = 0;
 let skippedPreset = 0;
@@ -104,10 +216,10 @@ for (const r of comps.records) {
     st.source = DWXQ_SOURCE;
     hit++; hitKeys.add(k);
   } else {
-    for (const f of DWXQ_STAT_KEYS) delete st[f];
-    st.source = '';
+    // 未命中：保持原 stats 字节不动（不 delete、不写 source）
     if (r.isPreset) skippedPreset++;
   }
+  // 不补 variantCount，让 merge_variants.mjs 来填
   r.stats = st;
   r.statsNote = STATS_NOTE;
 }
@@ -132,13 +244,15 @@ comps.notes = (comps.notes || []).map((n) =>
 );
 comps.statsSnapshot = {
   source: DWXQ_SOURCE,
-  fetchedAt: snap.fetchedAt || null,
+  fetchedAt: snap.fetchedAt,
   statisticsScope: snap.statisticsScope ?? null,
   sampleCount: snap.sampleCount ?? null,
   rosterKeysMatched: hitKeys.size,
   recordsFilled: recordsCovered,
-  ...(partial ? { partial: true } : {}),
 };
 
 fs.writeFileSync(compsPath, JSON.stringify(comps, null, 2) + '\n', 'utf8');
 console.log('written:', path.relative(ROOT, compsPath), 'bytes:', fs.statSync(compsPath).size);
+
+// 末尾导出 pending-keys（在写盘之后）
+exportPendingKeys();

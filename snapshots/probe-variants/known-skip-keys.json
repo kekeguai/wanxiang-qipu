@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-11-22T05:28:45.946Z",
+  "note": "Tracked registry. Keys here are excluded from pending-keys.json and skipped by merge_variants.mjs. Two reasons: parent-roster-mismatch is permanent; over-caliber is parked until the site statistics report a variantCount at least equal to the detail bundle size. Per-lineup identifiers are deliberately omitted: rosterKey plus record counts are sufficient to locate each lineup.",
+  "keys": [
+    {
+      "rosterKey": "6|1211|1771|1861|5231|5251|5271",
+      "reason": "parent-roster-mismatch",
+      "policy": "permanent: never fetch, never merge, never list as pending",
+      "evidence": {
+        "file": "combined-variants.json",
+        "variants": 9,
+        "foreignRemoved": 5,
+        "foreignIds": {
+          "1751": 5
+        },
+        "childSizes": {
+          "6": 2,
+          "7": 7
+        },
+        "baseSize": 6
+      },
+      "verifiedAt": "2026-11-22T05:28:45.946Z"
+    },
+    {
+      "rosterKey": "7|1421|1591|1831|5031|5041|5141|5631",
+      "reason": "over-caliber",
+      "policy": "parked: un-park only after the site statistics report a variantCount >= the detail bundle size",
+      "evidence": {
+        "statsVariantCount": 8,
+        "bundleVariants": 9,
+        "bundleFile": "combined-variants.json",
+        "records": 1
+      },
+      "verifiedAt": "2026-11-22T05:28:45.946Z"
+    },
+    {
+      "rosterKey": "6|1141|1861|5011|5051|5111|5641",
+      "reason": "over-caliber",
+      "policy": "parked: un-park only after the site statistics report a variantCount >= the detail bundle size",
+      "evidence": {
+        "statsVariantCount": 10,
+        "bundleVariants": 11,
+        "bundleFile": "combined-variants.json",
+        "records": 2
+      },
+      "verifiedAt": "2026-11-22T05:28:45.946Z"
+    },
+    {
+      "rosterKey": "7|1061|1161|1241|1271|1281|1461|1671",
+      "reason": "over-caliber",
+      "policy": "parked: un-park only after the site statistics report a variantCount >= the detail bundle size",
+      "evidence": {
+        "statsVariantCount": 10,
+        "bundleVariants": 11,
+        "bundleFile": "combined-variants.json",
+        "records": 4
+      },
+      "verifiedAt": "2026-11-22T05:28:45.946Z"
+    }
+  ]
+}

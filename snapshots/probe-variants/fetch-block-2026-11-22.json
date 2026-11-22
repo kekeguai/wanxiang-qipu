@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-11-22T05:55:35.172Z",
+  "date": "2026-11-22",
+  "scope": "one-off variant fetch authorised for the three keys listed in pending-keys.json",
+  "counts": {
+    "keysAuthorised": 3,
+    "keysAttempted": 1,
+    "keysSucceeded": 0,
+    "keysFailed": 1
+  },
+  "attemptedKey": "7|1861|1871|1891|5011|5171|5211|5771",
+  "outcome": "blocked by the site before any variant payload was returned",
+  "siteMessage": "系统异常，请联系站长协助处理~，<redacted-ip>",
+  "scriptFindings": [
+    "fetch_variants.mjs logs the rejection and continues to the next key instead of aborting the window",
+    "the same key was recorded twice in failures, so items.length + failures.length === keys.length failed with 0 + 2 !== 1",
+    "the assertion aborted before any output file was written, so no partial payload was persisted"
+  ],
+  "artifacts": {
+    "logFile": null,
+    "outputFile": null,
+    "fullDetail": "fetch-block-2026-11-22-full.local.json (git-ignored, contains the unredacted log)"
+  },
+  "decision": "authorisation window closed and spent; no retry, no proxy rotation, no gap relaxation, no key reordering",
+  "nextStep": "if this data is still required, ask the site owner as the site message requests, or obtain it through an official channel; do not resume scraping without a new explicit approval",
+  "privacyNote": "the client IP reported by the site is a personal identifier and is redacted here; the unredacted copy stays out of version control"
+}

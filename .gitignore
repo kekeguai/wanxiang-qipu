@@ -35,7 +35,14 @@ research/raw/lineups.json
 # data/comps.json 由 scripts/gen_comps.mjs 从外部快照生成，仓库只存归纳结果
 snapshots/raw/
 # datawxq 变阵探针样本：抓包原始响应，只留本地
-snapshots/probe-variants/
+snapshots/probe-variants/*
+!snapshots/probe-variants/known-skip-keys.json
+!snapshots/probe-variants/merge-report-2026-11-21T1455.json
+!snapshots/probe-variants/merge-gaps-2026-11-21T1458.json
+!snapshots/probe-variants/heroes-coverage-gap-2026-11-21.json
+!snapshots/probe-variants/variants-backlog-2026-11-22.json
+!snapshots/probe-variants/fetch-block-2026-11-22.json
+!snapshots/probe-variants/fetch-attempt-2026-11-22-1459.json
 # datawxq 统计抓取结果（scripts/fetch_stats.mjs 产物）：只留本地，合并结果进 data/comps.json
 snapshots/probe-stats/
 # 图鉴侦察抓包（官网/datawxq 页面与 bundle）：只留本地，结论已写进 docs/ 与 data/

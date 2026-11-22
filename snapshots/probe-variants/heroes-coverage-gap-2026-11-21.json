@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-11-21T15:23:22.686Z",
+  "compsSha256": "a2ce2240ccbe5c1cd5269c1abe34db2478feb003528b70c2d797f56406ee526a",
+  "compsBytes": 1028269,
+  "heroesCount": 85,
+  "missingCount": 2,
+  "missingHeroes": [
+    {
+      "id": "1381",
+      "referencedByRosterKeys": [
+        "7|1441|1541|1751|1861|1931|5011|5071"
+      ],
+      "suspiciousIdFormat": false
+    },
+    {
+      "id": "31191",
+      "referencedByRosterKeys": [
+        "7|1561|1741|1891|1991|5051|5061|5771"
+      ],
+      "suspiciousIdFormat": true
+    }
+  ],
+  "relatedGapsFile": "snapshots/probe-variants/merge-gaps-2026-11-21T1458.json",
+  "variantsInput": "snapshots/probe-variants/curated-variants-20261121142310.json",
+  "variantsReport": "snapshots/probe-variants/merge-report-2026-11-21T1455.json",
+  "policy": "站点已有、本地 heroes.json 未收录的新牌；零请求政策下不补入，作为独立牌库同步任务处理，不影响本轮 0 问题校验",
+  "decision": "Names found locally (1381=王维; 31191=始祖熊灵), but required stats, card metadata, awake text, and skills are absent. data/heroes.json intentionally untouched; no external request was made.",
+  "perHero": [
+    {
+      "id": "1381",
+      "suspiciousIdFormat": false,
+      "action": "missing four-digit card; capture official name and skills during the next approved fetch window"
+    },
+    {
+      "id": "31191",
+      "suspiciousIdFormat": true,
+      "action": "five-digit id outside the local 1000-5999 range; identify the entity against the official roster before any entry is added"
+    }
+  ],
+  "backlogFile": "snapshots/probe-variants/variants-backlog-2026-11-22.json",
+  "verifiedAt": "2026-11-22T05:47:18.138Z",
+  "localNames": {
+    "1381": "王维",
+    "31191": "始祖熊灵"
+  }
+}
