@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-11-22T07:55:28.364Z",
+  "note": "2026-11-22 14:59 发生一次真实站点请求，产物 R6/R7/R8.json 落在仓库根目录。本文件只记录计数、rosterKey 与错误分类，不含原始错误文本、IP 或长数字。",
+  "authorization": "无。该次请求不在任何已记录的授权窗口内，仅作历史事实留档，不构成再次请求的依据。,,",
+  "codeState": "产出这三份文件的脚本为 8e2405d 之后的 fetch_variants.mjs（输出含 failuresDeduped 字段）。",
+  "dataUntouched": {
+    "file": "data/comps.json",
+    "sha256": "a2ce2240ccbe5c1cd5269c1abe34db2478feb003528b70c2d797f56406ee526a"
+  },
+  "limitation": "中止窗口只记录 unattempted 条数，不枚举未尝试的 rosterKey，无法从产物反推剩余待抓 key。",
+  "runs": [
+    {
+      "rawFile": "snapshots/probe-variants/scratch/raw-r-probes/R6.json",
+      "rawBytes": 313,
+      "rawSha256": "06733ecbb5d368d7e83469cb2b507f5555b6840678d2242ceaead625468612e0",
+      "rawMtime": "2026-11-22T07:23:40.518Z",
+      "requested": 1,
+      "attempted": 1,
+      "succeeded": 0,
+      "failed": 1,
+      "failuresDeduped": 0,
+      "unattempted": 0,
+      "unaccountedAttempts": 0,
+      "aborted": true,
+      "abortReason": "anti-bot",
+      "failedKeys": [
+        "A"
+      ],
+      "failureKinds": [
+        "empty"
+      ]
+    },
+    {
+      "rawFile": "snapshots/probe-variants/scratch/raw-r-probes/R7.json",
+      "rawBytes": 340,
+      "rawSha256": "d3653152dab1505005a6ac76e5cfb10d8d46a6e0d41882e1bc53915f36552f40",
+      "rawMtime": "2026-11-22T07:23:40.519Z",
+      "requested": 3,
+      "attempted": 1,
+      "succeeded": 0,
+      "failed": 1,
+      "failuresDeduped": 0,
+      "unattempted": 2,
+      "unaccountedAttempts": 0,
+      "aborted": true,
+      "abortReason": "anti-bot",
+      "failedKeys": [
+        "A"
+      ],
+      "failureKinds": [
+        "empty"
+      ]
+    },
+    {
+      "rawFile": "snapshots/probe-variants/scratch/raw-r-probes/R8.json",
+      "rawBytes": 313,
+      "rawSha256": "6048e3f0343cbfd5b4b7c13f153c248ecfbcaf16dde9a1542d5a536b91c4dcb7",
+      "rawMtime": "2026-11-22T07:23:40.519Z",
+      "requested": 3,
+      "attempted": 1,
+      "succeeded": 0,
+      "failed": 1,
+      "failuresDeduped": 0,
+      "unattempted": 2,
+      "unaccountedAttempts": 0,
+      "aborted": true,
+      "abortReason": "anti-bot",
+      "failedKeys": [
+        "A"
+      ],
+      "failureKinds": [
+        "empty"
+      ]
+    }
+  ]
+}
