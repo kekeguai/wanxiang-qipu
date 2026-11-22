@@ -63,5 +63,15 @@
         "baseSize": 6
       }
     }
-  ]
+  ],
+  "lastFetchAttempt": {
+    "date": "2026-11-22",
+    "outcome": "blocked by site anti-bot",
+    "blockRecord": "snapshots/probe-variants/fetch-block-2026-11-22.json",
+    "keysStillDeferred": [
+      "7|1351|1861|1891|5041|5171|5251|5271",
+      "7|1101|1121|1131|1201|1211|5231|5241",
+      "7|1861|1871|1891|5011|5171|5211|5771"
+    ]
+  }
 }
