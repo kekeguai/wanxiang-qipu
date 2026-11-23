@@ -5,8 +5,9 @@ name: auto-update
 # datawxq 的统计/变阵抓取不在本工作流内：那边有 IP 风控，抓一次就可能封。
 
 on:
-  schedule:
-    - cron: '0 2 * * *' # UTC 02:00 = 北京时间 10:00
+  # [paused 2026-11-23] schedule 暂停：官方源在 CI 反复超时，先改为仅手动触发
+  # schedule:
+    # - cron: '0 2 * * *' # UTC 02:00 = 北京时间 10:00
   workflow_dispatch:
 
 permissions:
@@ -15,7 +16,7 @@ permissions:
 
 concurrency:
   group: auto-update
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
