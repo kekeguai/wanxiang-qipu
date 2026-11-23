@@ -10,6 +10,7 @@
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "test": "node scripts/verify-site.mjs && node scripts/verify-ui.mjs && node copilot/test/run.mjs --replay",
+    "test:invariants": "node scripts/lib/variant-invariants.test.mjs",
     "verify": "node scripts/verify-site.mjs",
     "verify:ui": "node scripts/verify-ui.mjs",
     "verify:gpu": "GPU=1 node scripts/verify-ui.mjs",

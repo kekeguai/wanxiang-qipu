@@ -30,6 +30,8 @@ jobs:
         run: node copilot/test/run.mjs --replay
       - name: README 表格与数据一致
         run: node scripts/sync_readme.mjs --check
+      - name: 变阵不变量回归（fetch 窗口加固）
+        run: node scripts/lib/variant-invariants.test.mjs
 
   # Windows 回归：动态 import 的 file:// URL 构造在这条路径上才暴露，
   # Linux runner 用 path.join 得到的 POSIX 绝对路径恰好能被 ESM loader 接受。
